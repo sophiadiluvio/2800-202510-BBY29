@@ -1,3 +1,16 @@
+## About Us
+Team Name: BBY-29
+Team Members: 
+- Person Aarshdeep  Vandal
+- Person Russell Melchiorre
+- Person Sophia Diluvio
+- Person Jack Huang
+- Person Regina Park
+## More details to come
+TBA
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Nextjs startup:
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
