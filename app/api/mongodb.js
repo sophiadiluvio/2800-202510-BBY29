@@ -1,8 +1,8 @@
-// app/api/db.js
+// app/api/mongodb.js
 
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI
 
 const options = {
     serverApi: {
@@ -27,3 +27,4 @@ if (!global._mongoClientPromise) {
 clientPromise = global._mongoClientPromise;
 
 export default clientPromise;
+
