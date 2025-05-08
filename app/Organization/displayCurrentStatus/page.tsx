@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 // import ItemForm from '../components/ItemForm';
-import ItemsList from '../components/itemsList';
+import ItemsList from '../../components/itemsList';
 
 export default function CurrentStatusPage() {
   const [refresh, setRefresh] = useState<number>(0);
