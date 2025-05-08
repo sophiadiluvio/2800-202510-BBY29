@@ -1,4 +1,3 @@
-
 export default function ProfilePage() {
     const activities = [
       { date: "2025.1.20", activity: "Shelter A" },
