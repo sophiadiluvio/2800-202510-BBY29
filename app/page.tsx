@@ -2,7 +2,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 
-const MapboxExample = dynamic(
+const MapComponent = dynamic(
   () => import('./components/mapBox'),
   { ssr: false }
 );
@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <div className="w-full h-[75vh]">
-        <MapboxExample />
+        <MapComponent />
       </div>
 
       <div
