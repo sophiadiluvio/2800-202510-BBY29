@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "../components/navbar/communityMember/header";
+import Footer from "../components/navbar/communityMember/footer";
 
 export default function DonationPage() {
   const router = useRouter();
@@ -26,12 +28,10 @@ export default function DonationPage() {
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
-      {/* Header */}
-      <div className="bg-yellow-400 flex items-center justify-between px-4 py-2">
-        <button onClick={() => router.back()}>←</button>
-        <h1 className="text-xl font-bold">Donation</h1>
-        <button>👤</button>
-      </div>
+
+      <Header>
+        <h1 className="text-xl font-bold ml-4">Donation</h1>
+      </Header>
 
       {/* Content */}
       <div className="p-6 space-y-4">
@@ -73,11 +73,7 @@ export default function DonationPage() {
         </button>
       </div>
 
-      {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-400 flex justify-around py-2 text-xl">
-        <button>🏠</button>
-        <button>🤝</button>
-      </div>
+      <Footer />
     </main>
   );
 }

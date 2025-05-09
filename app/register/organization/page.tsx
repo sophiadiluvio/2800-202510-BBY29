@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "../../components/navbar/noAccount/header";
+import Footer from "../../components/navbar/noAccount/footer";
 
 export default function OrgRegisterPage() {
   const router = useRouter();
@@ -11,12 +13,9 @@ export default function OrgRegisterPage() {
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
-      {/* Header */}
-      <div className="bg-green-600 flex items-center justify-between px-4 py-2">
-        <button onClick={() => router.back()}>←</button>
-        <h1 className="text-xl font-bold text-white">ShelterLink</h1>
-        <div style={{ width: "24px" }} />
-      </div>
+      <Header>
+          <h1 className="text-xl font-bold">ShelterLink</h1>
+      </Header>
 
       {/* Content */}
       <div className="flex flex-col items-center justify-center flex-grow space-y-4 mt-10 text-center">
@@ -54,10 +53,7 @@ export default function OrgRegisterPage() {
         </button>
       </div>
 
-      {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-300 flex justify-center py-2">
-        <button>🏠</button>
-      </div>
+      <Footer />
     </main>
   );
 }

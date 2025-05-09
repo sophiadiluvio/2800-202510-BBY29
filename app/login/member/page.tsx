@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "../../components/navbar/noAccount/header";
+import Footer from "../../components/navbar/noAccount/footer";
 
 export default function MemberLoginPage() {
   const router = useRouter();
@@ -10,11 +12,11 @@ export default function MemberLoginPage() {
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
-      {/* Header */}
-      <div className="bg-green-600 px-4 py-2 flex justify-center">
-        <h1 className="text-xl font-bold text-white">ShelterLink</h1>
-      </div>
-
+      
+      <Header>
+          <h1 className="text-xl font-bold">ShelterLink</h1>
+      </Header>
+      
       {/* Content */}
       <div className="flex flex-col items-center justify-center flex-grow space-y-4 mt-10 text-center">
         <h2 className="text-yellow-500 text-lg font-semibold">Member<br />Log In</h2>
@@ -43,12 +45,7 @@ export default function MemberLoginPage() {
         </button>
       </div>
 
-      {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-300 flex justify-around py-2 text-xl">
-        <button>📍</button>
-        <button>🏠</button>
-        <button>➕</button>
-      </div>
+      <Footer />
     </main>
   );
 }
