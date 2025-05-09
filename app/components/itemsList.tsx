@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import ItemDeleteButton from './itemDeleteButton';
+import ItemPlusButton from './itemPlusButton';
 
 interface Item {
     _id?: string;
@@ -35,6 +37,7 @@ export default function itemsList() {
         fetchItems();
     }, [refreshKey]);
     
+    // const [stockValue, setStockValue] = useState<number>(item.stock)
 
     console.log(items);
 
@@ -53,10 +56,13 @@ export default function itemsList() {
                             className="border border-gray-200 rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition-shadow duration-300 relative"
                         >
                             {/* Top-right delete button */}
-                            {/* { <div className="absolute top-2 right-2">
+                            <div className="absolute top-2 right-2">
                                 <ItemDeleteButton id={item._id} onDelete={() => setRefreshKey((prev) => prev + 1)} />
-                            </div>} */}
-
+                            </div>
+                            {/*Plus button*/}
+                            {/* <div className="absolute top-4 right-4">
+                                <ItemPlusButton id={item._id}/>
+                            </div> */}
                             <h2 className="text-lg font-semibold text-gray-700 mb-2">{item.name}</h2>
                             <p className="text-gray-600">
                                 <strong className="font-medium text-gray-800">Category:</strong> {item.category}
