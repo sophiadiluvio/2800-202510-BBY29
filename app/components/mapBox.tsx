@@ -1,5 +1,3 @@
-// This file contains modified code form Mapbox's examples documentation
-// This file is a WIP and is not fully commented or finished and was pushed to show geolocation capabilities 
 
 'use client';
 

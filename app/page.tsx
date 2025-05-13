@@ -1,6 +1,11 @@
-// /app/page.tsx
+
 'use client';
 import dynamic from 'next/dynamic';
+
+const SearchNav = dynamic(
+  () => import('./components/searchNav'),
+  { ssr: false }
+);
 
 const MapComponent = dynamic(
   () => import('./components/mapBox'),
@@ -16,8 +21,12 @@ export default function Home() {
 
       <div
         id="geocoder"
-        className="w-full h-[20vh] bg-white text-black border-t border-black flex items-start justify-center"
+        className="w-full h-[15vh] bg-white text-black border-t border-black flex items-start justify-center"
       />
+
+      <div className="w-full h-[15vh]">
+        <SearchNav />
+      </div>
     </>
   );
 }
