@@ -5,8 +5,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+// import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 
@@ -195,17 +195,17 @@ const max = shelter.max;
         map.getCanvas().style.cursor = '';
       });
 
-      const geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken!,
-        mapboxgl: mapboxgl as any,
-        limit: 2,
-        placeholder: 'Search...',
-      });
+      // const geocoder = new MapboxGeocoder({
+      //   accessToken: mapboxgl.accessToken!,
+      //   mapboxgl: mapboxgl as any,
+      //   limit: 2,
+      //   placeholder: 'Search...',
+      // });
 
-      const geoDiv = document.getElementById('geocoder');
-      if (geoDiv) {
-        geoDiv.appendChild(geocoder.onAdd(map));
-      }
+      // const geoDiv = document.getElementById('geocoder');
+      // if (geoDiv) {
+      //   geoDiv.appendChild(geocoder.onAdd(map));
+      // }
     });
 
     return () => map.remove();
@@ -213,12 +213,13 @@ const max = shelter.max;
 
   return (
     <>
-      <div ref={mapContainerRef} style={
-        { width: '100%', height: '100%' }
-        } />
-      <div id="geocoder" style={
+    <div ref={mapContainerRef} style={{ width: '100%', height: '400px' }} />
+      {/* <div ref={mapContainerRef} style={
+        { width: '100%', height: '100%' } */}
+        {/* } /> */}
+      {/* <div id="geocoder" style={
         { width: '100%', padding: '0.5rem' }
-        } />
+        } /> */}
     </>
   );
 };
