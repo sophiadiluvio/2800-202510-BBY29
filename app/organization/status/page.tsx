@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Header from "../../components/navbar/organization/header";
+import Footer from "../../components/navbar/organization/footer";
 
 export default function OrganizationStatusPage() {
   const router = useRouter();
@@ -22,12 +24,10 @@ export default function OrganizationStatusPage() {
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
-      {/* Header */}
-      <div className="bg-blue-600 flex items-center justify-between px-4 py-2 text-white">
-        <button onClick={() => router.back()}>←</button>
-        <h1 className="text-xl font-bold">Current Status</h1>
-        <button>👤</button>
-      </div>
+      
+      <Header>
+        <h1 className="text-xl font-bold ml-4">Current Status</h1>
+      </Header>
 
       {/* Resource Bars */}
       <div className="grid grid-cols-2 gap-4 px-6 mt-6">
@@ -87,13 +87,8 @@ export default function OrganizationStatusPage() {
           Resource Request
         </button>
       </div>
-
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-400 flex justify-around py-2 text-xl">
-        <button>📍</button>
-        <button>🏠</button>
-        <button>➕</button>
-      </div>
+      
+      <Footer />
     </main>
   );
 }

@@ -1,3 +1,6 @@
+import Header from "../../components/navbar/communityMember/header";
+import Footer from "../../components/navbar/communityMember/footer";
+
 export default function ProfilePage() {
     const activities = [
       { date: "2025.1.20", activity: "Shelter A" },
@@ -8,12 +11,10 @@ export default function ProfilePage() {
   
     return (
       <main className="min-h-screen bg-white text-black font-sans">
-        {/* Header */}
-        <div className="bg-yellow-400 flex items-center justify-between px-4 py-2">
-          <button>{"←"}</button>
-          <h1 className="text-xl font-bold">Profile</h1>
-          <button>👤</button>
-        </div>
+        
+        <Header>
+          <h1 className="text-xl font-bold ml-4">Profile</h1>
+        </Header>
   
         {/* Profile Info */}
         <div className="flex flex-col items-center mt-6">
@@ -43,13 +44,8 @@ export default function ProfilePage() {
           <button className="w-full bg-gray-200 py-2">Volunteer</button>
           <button className="w-full bg-gray-200 py-2">Donation</button>
         </div>
-  
-        {/* Bottom Navigation */}
-        <div className="fixed bottom-0 left-0 w-full bg-gray-300 flex justify-around py-2">
-          <button>🏠</button>
-          <button>🤍</button>
-          <button>🤝</button>
-        </div>
+        
+        <Footer />
       </main>
     );
   }

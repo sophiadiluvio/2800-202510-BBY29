@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Header from "../../components/navbar/organization/header";
+import Footer from "../../components/navbar/organization/footer";
 
 export default function ResourceRequestPage() {
   const router = useRouter();
@@ -27,12 +29,10 @@ export default function ResourceRequestPage() {
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
-      {/* Header */}
-      <div className="bg-blue-600 flex items-center justify-between px-4 py-2 text-white">
-        <button onClick={() => router.back()}>←</button>
-        <h1 className="text-xl font-bold">Resource Request</h1>
-        <button>👤</button>
-      </div>
+      
+      <Header>
+        <h1 className="text-xl font-bold ml-4">Resource Request</h1>
+      </Header>
 
       {/* Form */}
       <div className="p-6 space-y-4">
@@ -63,13 +63,7 @@ export default function ResourceRequestPage() {
           Confirm Request
         </button>
       </div>
-
-      {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-400 flex justify-around py-2 text-xl">
-        <button>📍</button>
-        <button>🏠</button>
-        <button>➕</button>
-      </div>
+     <Footer />
     </main>
   );
 }

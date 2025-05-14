@@ -27,4 +27,82 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+
+
+  /* Make the geocoder container a positioning context */
+  #geocoder {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    background: white;
+    border-top: 1px solid black;
+  }
+
+
+  #geocoder .mapboxgl-ctrl-geocoder {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    background-color: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+  }
+
+
+  #geocoder .mapboxgl-ctrl-geocoder--form,
+  #geocoder .mapboxgl-ctrl-geocoder--input {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+
+  #geocoder .mapboxgl-ctrl-geocoder--input {
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+
+
+  #geocoder .mapboxgl-ctrl-geocoder .suggestions {
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-height: 10em !important;
+    overflow-y: auto !important;
+    background-color: white !important;
+    z-index: 20 !important;
+  }
+
+
+  #geocoder .mapboxgl-ctrl-geocoder--powered-by {
+    display: none !important;
+  }
+
+
+.mapboxgl-popup-content {
+background: white !important;
+color: black !important;
+box-shadow: none !important;
+padding: 0 !important; 
+}
+
+
+.mapboxgl-popup-tip {
+display: none !important;
+}
+
+
+.mapboxgl-popup-content * {
+color: inherit !important;
+opacity: 1 !important;
+}
+
 }

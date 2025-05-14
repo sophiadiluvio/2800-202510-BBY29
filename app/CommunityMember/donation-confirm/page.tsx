@@ -1,18 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Header from "../../components/navbar/communityMember/header";
+import Footer from "../../components/navbar/communityMember/footer";
 
 export default function DonationConfirmPage() {
   const [selectedOption, setSelectedOption] = useState("");
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
-      {/* Header */}
-      <div className="bg-yellow-400 flex items-center justify-between px-4 py-2">
-        <button>{"←"}</button>
-        <h1 className="text-xl font-bold"> </h1>
-        <button>👤</button>
-      </div>
+      
+      <Header/>
 
       {/* Card */}
       <div className="bg-yellow-400 m-auto p-6 rounded-md w-11/12 max-w-md text-center border border-black">
@@ -35,13 +33,8 @@ export default function DonationConfirmPage() {
 
         <button className="mt-6 bg-gray-200 py-2 px-6 rounded">Confirm</button>
       </div>
-
-      {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-300 flex justify-around py-2">
-        <button>🏠</button>
-        <button>🤍</button>
-        <button>🤝</button>
-      </div>
+      
+      <Footer />
     </main>
   );
 }

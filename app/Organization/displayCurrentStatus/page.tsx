@@ -17,5 +17,6 @@ export default function CurrentStatusPage() {
       {/* <ItemForm addedItem={handleRefresh} /> */}
       <ItemsList key={refresh} />
     </div>
+    
   );
 }
