@@ -43,7 +43,7 @@ export default function DonationPage() {
           <li>Water bottles</li>
           <li>Canned food</li>
         </ul>
-
+        
         {/* Donation Box */}
         <div className="bg-gray-200 p-4 rounded space-y-4">
           <p className="font-bold text-center">What would you like to donate?</p>

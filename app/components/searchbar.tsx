@@ -38,21 +38,23 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
     setFiltered(result);
   }, [query, shelters]);
 
+  //////////////////////////////////////////////////////////////
   // Save shelter to server
-  const saveShelter = async (shelter: Shelter) => {
-    console.log("saveShelter is called:", shelter.name);
-    try {
-      const res = await fetch('/api/selection', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(shelter),
-      });
-      const result = await res.json();
-      console.log("Shelter saved:", result);
-    } catch (error) {
-      console.error("Failed to save shelter:", error);
-    }
-  };
+  // const saveShelter = async (shelter: Shelter) => {
+  //   console.log("saveShelter is called:", shelter.name);
+  //   try {
+  //     const res = await fetch('/api/selection', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(shelter),
+  //     });
+  //     const result = await res.json();
+  //     console.log("Shelter saved:", result);
+  //   } catch (error) {
+  //     console.error("Failed to save shelter:", error);
+  //   }
+  // };
+  ///////////////////////////////////////////////////////////////
 
   // When a list item is clicked: select only (do not save)
   const handleSelect = async (shelter: Shelter) => {
@@ -74,7 +76,7 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
       const shelter = result[0];
       setQuery(shelter.name);
       onSelect?.(shelter);
-      await saveShelter(shelter);
+      // await saveShelter(shelter);
       onSearchConfirm?.();
     } else {
       console.log(`${result.length} search results: do not save`);
