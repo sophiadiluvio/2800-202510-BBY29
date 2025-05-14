@@ -5,10 +5,9 @@ import { useState } from 'react';
 import type { Shelter } from '../../types/shelter';
 import SearchBar from '../../components/searchbar';
 import SearchNav from '../../components/searchNav';
+import Header from "../../components/navbar/organization/header";
 import Footer from "../../components/navbar/organization/footer";
 import DraggableHandle from '../../components/draggableHandle';
-
-
 
 const MapComponent = dynamic(() => import('../../components/mapBox'), {
   ssr: false,
@@ -21,19 +20,7 @@ export default function OrganizationPage() {
   return (
     <div className="relative h-screen w-full bg-white text-black overflow-hidden">
       
-      {/* Header */}
-        <div className="bg-blue-500 text-black p-4 flex justify-between items-center z-10 relative">
-         {/* Left spacer to match profile icon width */}
-          <div className="w-8 h-8" />
-
-          <h1 className="absolute left-1/2 transform -translate-x-1/2 text-xl font-bold">
-          ShelterLink</h1>
-
-        <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center">
-          <span className="text-lg">👤</span>
-        </div>
-      </div>
-
+      <Header />
 
       {/*Map*/}
       <div className="absolute top-16 bottom-44 left-0 right-0 z-0">

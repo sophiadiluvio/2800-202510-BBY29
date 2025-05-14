@@ -6,6 +6,7 @@ import type { Shelter } from './../types/shelter';
 import SearchBar from './../components/searchbar';
 import SearchNav from './../components/searchNav';
 import DraggableHandle from './../components/draggableHandle';
+import Header from "./../components/navbar/communityMember/homepageHeader";
 import Footer from "./../components/navbar/communityMember/footer";
 
 
@@ -21,23 +22,9 @@ export default function CommunityMemberPage() {
   return (
     <div className="relative h-screen w-full bg-white text-black overflow-hidden">
       
-      {/* Header */}
-        <div className="bg-yellow-500 text-black p-4 flex justify-between items-center z-10 relative">
-         {/* Left spacer to match profile icon width */}
-          <div className="w-8 h-8" />
+      <Header />
 
-        {/* Centered title */}
-          <h1 className="absolute left-1/2 transform -translate-x-1/2 text-xl font-bold">
-          ShelterLink</h1>
-
-        {/* Profile icon */}
-        <div className="bg-white rounded-full w-8 h-8 flex items-center justify-center">
-          <span className="text-lg">👤</span>
-        </div>
-      </div>
-
-
-      {/* Map (fills everything under the header) */}
+      {/*Map*/}
       <div className="absolute top-16 bottom-44 left-0 right-0 z-0">
         <MapComponent selectedShelter={selectedShelter} />
       </div>

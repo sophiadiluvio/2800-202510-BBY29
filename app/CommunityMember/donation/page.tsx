@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "../components/navbar/communityMember/header";
-import Footer from "../components/navbar/communityMember/footer";
+import Header from "../../components/navbar/communityMember/header";
+import Footer from "../../components/navbar/communityMember/footer";
 
 export default function DonationPage() {
   const router = useRouter();

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Header from "./../components/navbar/organization/header";
+import Header from "./../components/navbar/organization/homepageHeader";
 import Footer from "./../components/navbar/organization/footer";
 
 export default function OrganizationStatusPage() {
