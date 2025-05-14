@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -7,18 +6,8 @@ import mapboxgl from 'mapbox-gl';
 // import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Feature, FeatureCollection, Point } from 'geojson';
+import type { Shelter } from './../types/shelter';
 
-type Shelter = {
-  _id: string;
-  name: string;
-  address: string;
-  lon: number;
-  lat: number;
-  inv: Record<string, number>;
-  req: Record<string, number>;
-  max: Record<string, number>;
-  role: 'food' | 'overnight' | 'women' | 'distribution';
-};
 
 
 const MapComponent = () => {

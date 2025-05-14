@@ -3,6 +3,8 @@
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import SearchBar from './components/searchbar';
+import type { Shelter } from './types/shelter';
+
 
 const SearchNav = dynamic(
   () => import('./components/searchNav'),
@@ -12,15 +14,8 @@ const SearchNav = dynamic(
 const MapComponent = dynamic(
   () => import('./components/mapBox'),
   { ssr: false }
-);
+) as React.ComponentType<{ selectedShelter: Shelter | null }>;
 
-type Shelter = {
-  _id: string;
-  name: string;
-  address: string;
-  lon: number;
-  lat: number;
-};
 
 export default function Home() {
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
