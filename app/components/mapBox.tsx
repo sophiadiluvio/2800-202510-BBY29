@@ -211,7 +211,7 @@ const max = shelter.max;
 
   return (
     <>
-    <div ref={mapContainerRef} style={{ width: '100%', height: '400px' }} />
+    <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
       {/* <div ref={mapContainerRef} style={
         { width: '100%', height: '100%' } */}
         {/* } /> */}
