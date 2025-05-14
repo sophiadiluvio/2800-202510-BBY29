@@ -10,9 +10,13 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.5.0",
     "i": "^0.3.7",
     "jose": "^6.0.11",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.510.0",
+    "mapbox": "^1.0.0-beta10",
+    "mapbox-gl": "^3.12.0",
     "mongodb": "^6.16.0",
     "next": "15.3.1",
     "react": "^19.1.0",

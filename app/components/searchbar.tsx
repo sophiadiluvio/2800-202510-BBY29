@@ -1,14 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-
-type Shelter = {
-  _id: string;
-  name: string;
-  address: string;
-  lon: number;
-  lat: number;
-};
+import type { Shelter } from '../types/shelter'; // ✅ shared type
 
 type Props = {
   onSelect?: (shelter: Shelter) => void;
@@ -20,17 +13,16 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
   const [shelters, setShelters] = useState<Shelter[]>([]);
   const [filtered, setFiltered] = useState<Shelter[]>([]);
 
-  // Load the list of shelters initially
   useEffect(() => {
     fetch('/api/shelter')
       .then(res => res.json())
-      .then(data => {
+      .then((data: Shelter[]) => { // ✅ cast to full type
         setShelters(data);
         setFiltered(data);
-      });
+      })
+      .catch(err => console.error('Failed to load shelters:', err));
   }, []);
 
-  // Automatically filter when the search query changes
   useEffect(() => {
     const result = shelters.filter(s =>
       s.name.toLowerCase().includes(query.toLowerCase())
@@ -38,7 +30,6 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
     setFiltered(result);
   }, [query, shelters]);
 
-  // Save shelter to server
   const saveShelter = async (shelter: Shelter) => {
     console.log("saveShelter is called:", shelter.name);
     try {
@@ -54,23 +45,20 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
     }
   };
 
-  // When a list item is clicked: select only (do not save)
   const handleSelect = async (shelter: Shelter) => {
     console.log("list item is clicked:", shelter.name);
     setQuery(shelter.name);
     onSelect?.(shelter);
   };
 
-  // When the magnifying glass is clicked: search and auto-save
   const handleConfirmSearch = async () => {
-    console.log("handleConfirmSearch active: ");
+    console.log("handleConfirmSearch active:");
     const result = shelters.filter(s =>
       s.name.toLowerCase().includes(query.toLowerCase())
     );
     setFiltered(result);
 
     if (result.length === 1) {
-      console.log("1 search result: start saving");
       const shelter = result[0];
       setQuery(shelter.name);
       onSelect?.(shelter);
@@ -81,7 +69,6 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
     }
   };
 
-  // When Enter is pressed: search only
   const handleSearch = () => {
     console.log("⌨️ handleSearch active (Enter)");
     const result = shelters.filter(s =>
@@ -96,7 +83,7 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
         <span className="text-xl mr-2">≡</span>
         <input
           type="text"
-          placeholder="XXX Shelter"
+          placeholder="Enter a shelter..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
@@ -115,7 +102,6 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
         </span>
       </div>
 
-      {/* List of shelters with duplicates removed */}
       <ul className="max-w-md mx-auto">
         {Array.from(
           new Map(filtered.map(item => [item._id, item])).values()

@@ -1,5 +1,7 @@
 
 'use client';
+import type { Shelter } from '../types/shelter'; // adjust path as needed
+
 
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
@@ -7,19 +9,6 @@ import mapboxgl from 'mapbox-gl';
 // import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Feature, FeatureCollection, Point } from 'geojson';
-
-type Shelter = {
-  _id: string;
-  name: string;
-  address: string;
-  lon: number;
-  lat: number;
-  inv: Record<string, number>;
-  req: Record<string, number>;
-  max: Record<string, number>;
-  role: 'food' | 'overnight' | 'women' | 'distribution';
-};
-
 
 const MapComponent = () => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -211,7 +200,7 @@ const max = shelter.max;
 
   return (
     <>
-    <div ref={mapContainerRef} style={{ width: '100%', height: '400px' }} />
+    <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
       {/* <div ref={mapContainerRef} style={
         { width: '100%', height: '100%' } */}
         {/* } /> */}
