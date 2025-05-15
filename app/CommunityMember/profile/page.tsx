@@ -1,5 +1,7 @@
 import Header from "../../components/navbar/communityMember/header";
 import Footer from "../../components/navbar/communityMember/footer";
+import { CgProfile } from "react-icons/cg";
+
 
 export default function ProfilePage() {
     const activities = [
@@ -19,7 +21,7 @@ export default function ProfilePage() {
         {/* Profile Info */}
         <div className="flex flex-col items-center mt-6">
           <div className="w-24 h-24 rounded-full bg-purple-200 flex items-center justify-center">
-            <div className="text-4xl">👤</div>
+            <div className="text-4xl"><CgProfile size={105} /></div>
           </div>
           <div className="mt-2 text-center">
             <p className="font-bold">Full Name</p>
