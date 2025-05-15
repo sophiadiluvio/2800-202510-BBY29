@@ -12,7 +12,7 @@ export default function Footer() {
         </div>
       </Link>
 
-      <Link href="/CommunityMember/donation">
+      <Link href="/CommunityMember/requested-donations">
         <div className="flex flex-col items-center">
           <HandHeart size={30} />
         </div>
