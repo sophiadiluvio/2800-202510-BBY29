@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import ItemCard from './ItemCard';
 
+
 interface Item {
   _id?: string;
   name: string;
@@ -41,6 +42,7 @@ export default function ItemsList() {
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item, index) => (
             <ItemCard key={index} item={item} onRefresh={() => setRefreshKey((prev) => prev + 1)} />
+
           ))}
         </ul>
       )}

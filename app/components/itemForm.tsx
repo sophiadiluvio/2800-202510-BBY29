@@ -37,7 +37,7 @@ export default function ItemForm({ addedItem }: prop) {
         type="button"
         className="mb-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
       >
-        Insert Item
+        Add Item
       </button>
 
       {showPopup && (
@@ -65,7 +65,7 @@ export default function ItemForm({ addedItem }: prop) {
           </div>
 
           <div className="mb-4 text-sky-500">
-            <label className="block mb-1">Stock</label>
+            <label className="block mb-1">Quantity</label>
             <input type="number" name="stock" required className="border px-3 py-2 w-full rounded text-black" />
           </div>
 

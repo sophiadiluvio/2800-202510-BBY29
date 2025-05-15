@@ -3,6 +3,7 @@
 import ItemDeleteButton from './itemDeleteButton';
 import ItemPlusButton from './itemPlusButton';
 import ItemMinusButton from './itemMinusButton'; 
+import ItemTextBox from './itemTextBox';
 
 interface Item {
   _id?: string;
@@ -28,6 +29,10 @@ export default function ItemCard({ item, onRefresh }: ItemCardProps) {
       <div className="absolute top-2 left-2 flex space-x-2">
         <ItemPlusButton id={item._id} newValue={item.stock + 1} onUpdate={onRefresh} />
         <ItemMinusButton id={item._id} newValue={Math.max(0, item.stock - 1)} onUpdate={onRefresh} />
+      </div>
+
+      <div>
+      <ItemTextBox id={item._id} initialStock={item.stock} onUpdate={onRefresh} />
       </div>
 
       <h2 className="text-lg font-semibold text-gray-700 mb-2">{item.name}</h2>
