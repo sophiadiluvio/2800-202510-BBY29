@@ -57,62 +57,95 @@ const MapComponent = () => {
     };
 
     const getBar = (label: string, percent: number, color: string) => `
-      <div style="margin-bottom:12px;">
-        <div style="font-size:0.9em; margin-bottom:4px;">${label}</div>
-        <div style="background:#eee; border-radius:4px; height:8px;">
-          <div style="background:${color}; width:${percent}%; height:100%;"></div>
+    <div style="margin-bottom: 10px;">
+      <div style="font-size: 0.85em; color: #333; margin-bottom: 6px;">${label}</div>
+      <div style="background: #e0e0e0; border-radius: 6px; height: 10px; width: 100%;">
+        <div style="
+          background: ${color};
+          width: ${percent}%;
+          height: 100%;
+          border-radius: 6px;
+          transition: width 0.3s ease;
+        "></div>
+      </div>
+    </div>
+  `;
+  
+  const getPopupHTMLByRole = (shelter: Shelter) => {
+    const inv = shelter.inv;
+    const max = shelter.max;
+  
+    const calc = (key: string) => {
+      const v = inv[key] ?? 0;
+      const m = max[key] ?? 1;
+      return Math.min((v / m) * 100, 100);
+    };
+  
+    let bar1 = '';
+    let bar2 = '';
+  
+    switch (shelter.role) {
+      case 'food':
+        bar1 = 'Perishable food';
+        bar2 = 'Non-perishable food';
+        break;
+      case 'overnight':
+        bar1 = 'Available beds';
+        bar2 = 'Bedding & linens';
+        break;
+      case 'women':
+        bar1 = 'Hygiene products';
+        bar2 = 'Clothing & footwear';
+        break;
+      case 'distribution':
+        bar1 = 'Seasonal gear';
+        bar2 = 'Clothing & footwear';
+        break;
+      default:
+        return `<div style="font-family: sans-serif; font-size: 14px;">Unknown shelter type</div>`;
+    }
+  
+    return `
+      <div style="
+        width: 240px;
+        padding: 16px;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 14px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      ">
+        <div style="margin-bottom: 12px;">
+          <strong style="font-size: 1em; color: #111;">${shelter.name}</strong><br/>
+          <span style="font-size: 0.85em; color: #666;">${shelter.address}</span>
         </div>
+  
+        ${getBar(bar1, calc(bar1), '#4caf50')}
+        ${getBar(bar2, calc(bar2), '#f44336')}
+  
+        <a 
+  href="/shelter/${shelter._id}"
+  style="
+    display: inline-block;
+    width: 100%;
+    padding: 8px 0;
+    margin-top: 12px;
+    text-align: center;
+    background-color: #007ACC;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+  "
+>
+  More Info
+</a>
+
       </div>
     `;
-
-    const getPopupHTMLByRole = (shelter: Shelter) => {
-      const inv = shelter.inv;
-const max = shelter.max;
-
-
-      const calc = (key: string) => {
-        const v = inv[key] ?? 0;
-        const m = max[key] ?? 1;
-        return Math.min((v / m) * 100, 100);
-      };
-
-      let bar1 = '';
-      let bar2 = '';
-      switch (shelter.role) {
-        case 'food':
-          bar1 = 'Perishable food';
-          bar2 = 'Non-perishable food';
-          break;
-        case 'overnight':
-          bar1 = 'Available beds';
-          bar2 = 'Bedding & linens';
-          break;
-        case 'women':
-          bar1 = 'Hygiene products';
-          bar2 = 'Clothing & footwear';
-          break;
-        case 'distribution':
-          bar1 = 'Seasonal gear';
-          bar2 = 'Clothing & footwear';
-          break;
-        default:
-          return `<div style="font-family:sans-serif;">Unknown shelter type</div>`;
-      }
-
-      return `
-        <div style="width:220px; font-family: sans-serif; line-height:1.4;">
-          <div style="margin-bottom:12px;">
-            <strong>${shelter.name}</strong><br/>
-            <span style="font-size:0.85em; color:#555;">${shelter.address}</span>
-          </div>
-          ${getBar(bar1, calc(bar1), '#7cc924')}
-          ${getBar(bar2, calc(bar2), '#d41f0f')}
-          <button style="width:100%; padding:6px 0; border:none; border-radius:4px; background:#007ACC; color:#fff; font-size:0.9em; cursor:pointer;">
-            More Info
-          </button>
-        </div>
-      `;
-    };
+  };
+  
 
     map.on('load', () => {
       setLoading(false);
