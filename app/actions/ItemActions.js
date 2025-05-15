@@ -1,6 +1,6 @@
 'use server';
 
-import clientPromise from '@/app/api/mongodb';
+import clientPromise from '@/app/api/db';
 import { ObjectId } from 'mongodb';
 
 export async function createItem(formData) {

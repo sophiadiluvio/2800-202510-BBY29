@@ -14,13 +14,13 @@ export default function Footer() {
         </div>
       </Link>
 
-      <Link href="/Organization/profile">
+      <Link href="/Organization/status">
         <div className="flex flex-col items-center">
           <Home size={24} />
         </div>
       </Link>
 
-      <Link href="/Organization/resources">
+      <Link href="/Organization/update">
         <div className="flex flex-col items-center">
           <PlusCircle size={24} />
         </div>
