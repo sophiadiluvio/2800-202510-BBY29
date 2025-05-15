@@ -29,23 +29,23 @@ export default function CommunityMemberPage() {
         <MapComponent selectedShelter={selectedShelter} />
       </div>
 
-      {/* Expandable Search Panel (floats over map) */}
+      {/*Expandable Search Panel*/}
       <div
         className={`absolute left-0 right-0 bottom-28 bg-purple-100 transition-all duration-300 ease-in-out ${
           expanded ? 'h-[50vh]' : 'h-[72px]'
         } overflow-hidden rounded-t-xl shadow-md z-10`}
         
       >
-         {/* Drag handle */}
+         {/*Drag handle*/}
         <DraggableHandle onClick={() => setExpanded(!expanded)} />
 
-        {/* Search & list */}
+        {/*Search & list*/}
         <div className="px-4">
           <SearchBar onSelect={(shelter) => setSelectedShelter(shelter)} />
         </div>
       </div>
 
-      {/* Fixed Icon Row */}
+      {/*Fixed Icon Row*/}
       <div className="absolute bottom-13 left-0 right-0 z-10">
         <SearchNav />
       </div>      
