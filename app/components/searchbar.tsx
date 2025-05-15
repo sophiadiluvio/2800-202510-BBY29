@@ -19,6 +19,7 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
   const [query, setQuery] = useState('');
   const [shelters, setShelters] = useState<Shelter[]>([]);
   const [filtered, setFiltered] = useState<Shelter[]>([]);
+  const [isListVisible, setIsListVisible] = useState(false); //
 
   // Load the list of shelters initially
   useEffect(() => {
@@ -61,6 +62,7 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
     console.log("list item is clicked:", shelter.name);
     setQuery(shelter.name);
     onSelect?.(shelter);
+    setIsListVisible(false); //
   };
 
   // When the magnifying glass is clicked: search and auto-save
@@ -94,7 +96,9 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
 
   return (
     <div className="p-4">
-      <div className="flex items-center bg-purple-100 rounded-full px-4 py-2 w-full max-w-md mx-auto mb-4 shadow-sm">
+      <div className="flex items-center bg-purple-100 rounded-full px-4 py-2 w-full max-w-md mx-auto mb-4 shadow-sm"
+      onClick={() => setIsListVisible(true)} //
+      > 
         <span className="text-xl mr-2">≡</span>
         <input
           type="text"
@@ -111,13 +115,18 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
         />
         <span
           className="text-lg ml-2 cursor-pointer"
-          onClick={handleConfirmSearch}
+          //onClick={handleConfirmSearch} 
+          onClick={(e) => { //
+            e.stopPropagation(); // 부모 onClick 방지
+            handleConfirmSearch();//
+          }}//
         >
           🔍
         </span>
       </div>
 
       {/* List of shelters with duplicates removed */}
+      {isListVisible && ( //
       <ul className="max-w-md mx-auto">
         {Array.from(
           new Map(filtered.map(item => [item._id, item])).values()
@@ -131,6 +140,9 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
           </li>
         ))}
       </ul>
+
+      )} 
+      
     </div>
   );
 };
