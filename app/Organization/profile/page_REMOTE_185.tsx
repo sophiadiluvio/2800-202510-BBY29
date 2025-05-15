@@ -2,11 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-<<<<<<< HEAD
-=======
 import Header from "../../components/navbar/organization/header";
 import Footer from "../../components/navbar/organization/footer";
->>>>>>> parent of be734bf (edit account details for Organization)
 
 export default function OrganizationProfilePage() {
   const router = useRouter();
@@ -26,15 +23,9 @@ export default function OrganizationProfilePage() {
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
-      {/* Header */}
-      <div className="bg-blue-600 px-4 py-2 flex items-center text-white">
-        <button onClick={() => router.back()}>←</button>
+      <Header>
         <h1 className="text-xl font-bold ml-4">Organization Account Details</h1>
-<<<<<<< HEAD
-      </div>
-=======
       </Header>
->>>>>>> parent of be734bf (edit account details for Organization)
 
       {/* Profile Icon */}
       <div className="flex flex-col items-center mt-6">
@@ -75,18 +66,8 @@ export default function OrganizationProfilePage() {
           </button>
         </div>
       </div>
-<<<<<<< HEAD
-
-      {/* Bottom Nav */}
-      <div className="fixed bottom-0 left-0 w-full bg-gray-400 flex justify-around py-2 text-xl">
-        <button>📍</button>
-        <button>🏠</button>
-        <button>➕</button>
-      </div>
-=======
       
       <Footer />
->>>>>>> parent of be734bf (edit account details for Organization)
     </main>
   );
 }
