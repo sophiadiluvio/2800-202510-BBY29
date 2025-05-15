@@ -1,18 +1,29 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { ReactNode } from "react";
-import { ArrowLeft } from "lucide-react";
+import { useRouter } from 'next/navigation';
+import { ReactNode } from 'react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function Header({ children }: { children?: ReactNode }) {
   const router = useRouter();
 
   return (
-    <div className="bg-green-600 px-4 py-2 relative flex items-center text-black">
-      <button onClick={() => router.back()} className="absolute left-4">
-        <ArrowLeft size={28} />
+    <div className="bg-green-500 text-black p-4 flex justify-between items-center relative z-10">
+
+      <button onClick={() => router.back()} className="w-8 h-8 flex items-center justify-center">
+        <ArrowLeft size={24} />
       </button>
-      <div className="w-full text-center">{children}</div>
+
+      <div className="absolute left-1/2 transform -translate-x-1/2 text-xl font-bold">
+        ShelterLink
+      </div>
+
+      <button
+        onClick={() => router.push('/login')}
+        className="bg-white text-black px-4 py-1 rounded-md font-medium hover:bg-gray-100 transition"
+      >
+        Login
+      </button>
     </div>
   );
 }

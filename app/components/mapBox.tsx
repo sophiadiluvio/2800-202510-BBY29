@@ -15,6 +15,10 @@ const MapComponent = () => {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const [shelters, setShelters] = useState<Shelter[]>([]);
 
+  const [loading, setLoading] = useState<boolean>(() => true);
+
+
+
   useEffect(() => {
     fetch('/api/shelter')
       .then((res) => res.json())
@@ -111,6 +115,7 @@ const max = shelter.max;
     };
 
     map.on('load', () => {
+      setLoading(false);
       const features: Feature<Point>[] = shelters.map((shelter) => {
         return {
           type: 'Feature',
@@ -198,17 +203,34 @@ const max = shelter.max;
     return () => map.remove();
   }, [shelters]);
 
-  return (
-    <>
-    <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
-      {/* <div ref={mapContainerRef} style={
-        { width: '100%', height: '100%' } */}
-        {/* } /> */}
-      {/* <div id="geocoder" style={
-        { width: '100%', padding: '0.5rem' }
-        } /> */}
-    </>
+
+  let loadingOverlay = null;
+
+if (loading) {
+  loadingOverlay = (
+    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+    </div>
   );
+}
+
+return (
+  <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+    {loadingOverlay}
+    <div
+  ref={mapContainerRef}
+  style={{
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#ffffff',
+    minHeight: '70vh',
+  }}
+/>
+
+  </div>
+);
+
+  
 };
 
 export default MapComponent;
