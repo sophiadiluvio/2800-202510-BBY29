@@ -25,7 +25,14 @@ export default function SearchNav({ userLocation }: Props) {
     params.set('lat', lat.toString());
     params.set('lng', lng.toString());
   
-     router.push(`${pathname}/resourcesNearYou?${params.toString()}`);
+    let basePath = pathname;
+
+    if (pathname.endsWith('/map')) {
+      basePath = pathname.replace(/\/map$/, '');
+      console.log("asdasdasd")
+    }
+
+     router.push(`${basePath}/resourcesNearYou?${params.toString()}`);
 
   }
 
