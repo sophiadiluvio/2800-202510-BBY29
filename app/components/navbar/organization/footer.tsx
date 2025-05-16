@@ -12,13 +12,21 @@ export default function Footer() {
         </div>
       </Link>
 
+<<<<<<< HEAD
       <Link href="/organization">
+=======
+      <Link href="/Organization/status">
+>>>>>>> update_items_and_edit_account_details_feature
         <div className="flex flex-col items-center">
           <Home size={30} />
         </div>
       </Link>
 
+<<<<<<< HEAD
       <Link href="/organization/resources">
+=======
+      <Link href="/Organization/update">
+>>>>>>> update_items_and_edit_account_details_feature
         <div className="flex flex-col items-center">
           <PlusCircle size={30} />
         </div>

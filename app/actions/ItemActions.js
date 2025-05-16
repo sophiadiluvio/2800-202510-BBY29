@@ -25,7 +25,14 @@ export async function createItem(formData) {
 
 export async function deleteItem(id) {
   const client = await clientPromise;
-  const result = client.db('storeDB').collection('items').deleteOne({ _id: new ObjectId(id)});
+  const result = client.db('ShelterLink').collection('Shelters').deleteOne({ _id: new ObjectId(id)});
 
   console.log("Item was deleted");
+}
+
+export async function plusItem(id, newValue) {
+  const client = await clientPromise;
+  const result = client.db('ShelterLink').collection('Shelters').updateOne({ _id: new ObjectId(id)}, {$set: {stock: newValue}});
+  
+  console.log("increased by ", newValue);
 }
