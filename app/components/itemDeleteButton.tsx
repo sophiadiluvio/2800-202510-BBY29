@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteItem } from "../actions/itemActions";
+import { deleteItem } from "../actions/ItemActions";
 
 interface prop {
   id?: string;

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createItem } from '@/app/actions/itemActions';
+import { createItem } from '@/app/actions/ItemActions';
 
 interface prop {
   addedItem: () => void;

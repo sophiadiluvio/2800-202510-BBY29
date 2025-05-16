@@ -1,6 +1,6 @@
 'use client';
 
-import { plusItem } from "../actions/itemActions";
+import { plusItem } from "../actions/ItemActions";
 
 interface prop {
   id?: string;
