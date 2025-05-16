@@ -1,36 +1,49 @@
 'use client';
 
-import { FaHeart } from 'react-icons/fa';
-import { FaTshirt } from 'react-icons/fa';
-import { FaHome } from 'react-icons/fa';
-import { FaUtensils } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
+import { FaHeart, FaTshirt, FaHome, FaUtensils } from 'react-icons/fa';
+import { GiCannedFish } from "react-icons/gi";
+type Props = {
+  userLocation: { lat: number; lng: number } | null;
+};
 
-export default function searchNav() {
+export default function SearchNav({ userLocation }: Props) {
+  const router = useRouter();
+
+  function handleClick(category: string) {
+    if (!userLocation) {
+      alert("Location not available yet.");
+      return;
+    }
+
+    const { lat, lng } = userLocation;
+    router.push(`/resourcesNearYou?category=${category}&lat=${lat}&lng=${lng}`);
+
+  }
+
   return (
     <div className="w-full bg-white px-4 py-2 flex justify-around items-center shadow-md border-t border-gray-200">
 
-      <div className="flex flex-col items-center text-xs text-gray-800">
-        <FaHeart className="text-2xl mb-1" />
+      <button onClick={() => handleClick('favorites')} className="flex flex-col items-center text-xs text-gray-800">
+        <FaHeart className="text-2xl mb-1 text-red-500" />
         <span>Favorites</span>
-      </div>
+      </button>
 
+      <button onClick={() => handleClick('food')} className="flex flex-col items-center text-xs text-gray-800">
+        <GiCannedFish className="text-2xl mb-1 text-yellow-600" />
+        <span>Food Banks</span>
+      </button>
 
-      <div className="flex flex-col items-center text-xs text-gray-800">
-        <FaUtensils className="text-2xl mb-1" />
-        <span>Food</span>
-      </div>
+      <button onClick={() => handleClick('overnight')} className="flex flex-col items-center text-xs text-gray-800">
+        <FaHome className="text-2xl mb-1 text-blue-500" />
+        <span>Overnight Shelter</span>
+      </button>
 
-  
-      <div className="flex flex-col items-center text-xs text-gray-800">
-        <FaHome className="text-2xl mb-1" />
-        <span>Shelter</span>
-      </div>
-
-
-      <div className="flex flex-col items-center text-xs text-gray-800">
-        <FaTshirt className="text-2xl mb-1" />
+      <button onClick={() => handleClick('distribution')} className="flex flex-col items-center text-xs text-gray-800">
+        <FaTshirt className="text-2xl mb-1 text-green-500" />
         <span>Resources</span>
-      </div>
+      </button>
+
     </div>
   );
 }

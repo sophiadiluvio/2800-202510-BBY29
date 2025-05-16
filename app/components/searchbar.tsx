@@ -2,13 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 
-type Shelter = {
-  _id: string;
-  name: string;
-  address: string;
-  lon: number;
-  lat: number;
-};
+import type { Shelter } from '../types/shelter.ts'; // adjust path if needed
+
 
 type Props = {
   onSelect?: (shelter: Shelter) => void;
@@ -70,7 +65,7 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
         <span className="text-xl mr-2">≡</span>
         <input
           type="text"
-          placeholder="XXX Shelter"
+          placeholder="Search for a shelter..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSearch();
