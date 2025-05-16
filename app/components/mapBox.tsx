@@ -2,11 +2,14 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
+import { usePathname } from 'next/navigation';
 // import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 // import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 import type { Shelter } from './../types/shelter';
+import Spinner from './spinner';
+
 
 
 
@@ -25,6 +28,17 @@ const MapComponent = () => {
       .then((data) => setShelters(data))
       .catch((err) => console.error('Failed to fetch shelter data:', err));
   }, []);
+
+  const pathname = usePathname();
+
+  let basePath = pathname;
+  if (basePath.endsWith('/map')) {
+    basePath = basePath.replace('/map', '');
+  }
+  if (basePath === '') {
+    basePath = '/';
+  }
+
 
   useEffect(() => {
     if (!shelters.length) return;
@@ -70,43 +84,43 @@ const MapComponent = () => {
       </div>
     </div>
   `;
-  
-  const getPopupHTMLByRole = (shelter: Shelter) => {
-    const inv = shelter.inv;
-    const max = shelter.max;
-  
-    const calc = (key: string) => {
-      if (!inv || !max) return 0;
-      const v = inv[key] ?? 0;
-      const m = max[key] ?? 1;
-      return Math.min((v / m) * 100, 100);
-    };
-  
-    let bar1 = '';
-    let bar2 = '';
-  
-    switch (shelter.role) {
-      case 'food':
-        bar1 = 'Perishable food';
-        bar2 = 'Non-perishable food';
-        break;
-      case 'overnight':
-        bar1 = 'Available beds';
-        bar2 = 'Bedding & linens';
-        break;
-      case 'women':
-        bar1 = 'Hygiene products';
-        bar2 = 'Clothing & footwear';
-        break;
-      case 'distribution':
-        bar1 = 'Seasonal gear';
-        bar2 = 'Clothing & footwear';
-        break;
-      default:
-        return `<div style="font-family: sans-serif; font-size: 14px;">Unknown shelter type</div>`;
-    }
-  
-    return `
+
+    const getPopupHTMLByRole = (shelter: Shelter) => {
+      const inv = shelter.inv;
+      const max = shelter.max;
+
+      const calc = (key: string) => {
+        if (!inv || !max) return 0;
+        const v = inv[key] ?? 0;
+        const m = max[key] ?? 1;
+        return Math.min((v / m) * 100, 100);
+      };
+
+      let bar1 = '';
+      let bar2 = '';
+
+      switch (shelter.role) {
+        case 'food':
+          bar1 = 'Perishable food';
+          bar2 = 'Non-perishable food';
+          break;
+        case 'overnight':
+          bar1 = 'Available beds';
+          bar2 = 'Bedding & linens';
+          break;
+        case 'women':
+          bar1 = 'Hygiene products';
+          bar2 = 'Clothing & footwear';
+          break;
+        case 'distribution':
+          bar1 = 'Seasonal gear';
+          bar2 = 'Clothing & footwear';
+          break;
+        default:
+          return `<div style="font-family: sans-serif; font-size: 14px;">Unknown shelter type</div>`;
+      }
+
+      return `
       <div style="
         width: 240px;
         padding: 16px;
@@ -124,29 +138,28 @@ const MapComponent = () => {
         ${getBar(bar1, calc(bar1), '#4caf50')}
         ${getBar(bar2, calc(bar2), '#f44336')}
   
-        <a 
-  href="/shelter/${shelter._id}"
-  style="
-    display: inline-block;
-    width: 100%;
-    padding: 8px 0;
-    margin-top: 12px;
-    text-align: center;
-    background-color: #007ACC;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.9em;
-    font-weight: 500;
-  "
+        <a href="${basePath}/shelter/${shelter._id}"
+         style="
+        display: inline-block;
+        width: 100%;
+        padding: 8px 0;
+        margin-top: 12px;
+        text-align: center;
+        background-color: #007ACC;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.9em;
+        font-weight: 500;
+    "
 >
   More Info
 </a>
 
       </div>
     `;
-  };
-  
+    };
+
 
     map.on('load', () => {
       setLoading(false);
@@ -240,31 +253,31 @@ const MapComponent = () => {
 
   let loadingOverlay = null;
 
-if (loading) {
-  loadingOverlay = (
-    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
+  if (loading) {
+    loadingOverlay = (
+      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">
+        <Spinner color="border-green-600" />
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+      {loadingOverlay}
+      <div
+        ref={mapContainerRef}
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#ffffff',
+          minHeight: '70vh',
+        }}
+      />
+
     </div>
   );
-}
 
-return (
-  <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-    {loadingOverlay}
-    <div
-  ref={mapContainerRef}
-  style={{
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#ffffff',
-    minHeight: '70vh',
-  }}
-/>
 
-  </div>
-);
-
-  
 };
 
 export default MapComponent;

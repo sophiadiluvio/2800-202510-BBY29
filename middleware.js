@@ -76,7 +76,8 @@ export async function middleware(request) {
         const isPublic =
             path === '/' ||
             path.startsWith('/login') ||
-            path.startsWith('/register')
+            path.startsWith('/register') ||
+            path.startsWith('/resourcesNearYou')
 
         if (isPublic) {
             console.log("The isPublic is true");
@@ -94,6 +95,7 @@ export async function middleware(request) {
 export const config = {
     matcher: [
         '/',
+        '/resourcesNearYou',
         '/login/:path*',
         '/register/:path*',
         '/Organization/:path*',

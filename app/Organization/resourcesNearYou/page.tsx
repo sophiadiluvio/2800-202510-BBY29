@@ -1,8 +1,8 @@
 'use client';
 
-import Header from '../components/navbar/noAccount/header';
-import Footer from '../components/navbar/noAccount/footer';
-import ResourcesNearYou from '../components/resourcesNearYou';
+import Header from '../../components/navbar/organization/header';
+import Footer from '../../components/navbar/organization/footer';
+import ResourcesNearYou from '../../components/resourcesNearYou';
 
 export default function ResourcesNearYouPage() {
 
