@@ -24,7 +24,29 @@ export async function middleware(request) {
             const role = payload.role;
             console.log("→ role from token:", role);
 
+            const apiRes = await fetch(new URL('/api/account', request.url), { headers: { cookie: request.headers.get('cookie') } });
+            const { user } = await apiRes.json();
+
+            console.log("This is after the fetch");
+
             if (role === 'organizer') {
+                const shelterId = user.shelterId;
+                console.log(shelterId);
+                if (!shelterId) {
+                    if (path === '/Organization/createShelter') {
+                        return NextResponse.next()
+                    }
+                    return NextResponse.redirect(
+                        new URL('/Organization/createShelter', request.url)
+                    )
+                }
+
+                if (path === '/Organization/createShelter') {
+                    return NextResponse.redirect(
+                        new URL('/Organization/profile', request.url)
+                    )
+                }
+
                 if (path.startsWith('/Organization')) {
                     return NextResponse.next();
                 } else {
