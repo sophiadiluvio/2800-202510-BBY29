@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { FaHeart, FaTshirt, FaHome, FaUtensils } from 'react-icons/fa';
 import { GiCannedFish } from "react-icons/gi";
 type Props = {
@@ -9,17 +9,41 @@ type Props = {
 
 export default function SearchNav({ userLocation }: Props) {
   const router = useRouter();
+  const pathname = usePathname();
 
   function handleClick(category: string) {
     if (!userLocation) {
       alert("Location not available yet.");
       return;
     }
-
+  
     const { lat, lng } = userLocation;
-    router.push(`/resourcesNearYou?category=${category}&lat=${lat}&lng=${lng}`);
-
+  
+    const params = new URLSearchParams();
+    params.set('category', category);
+    params.set('lat', lat.toString());
+    params.set('lng', lng.toString());
+  
+    let basePath = pathname;
+  
+    if (pathname.endsWith('/map')) {
+      basePath = pathname.replace('/map', '');
+    }
+  
+    if (basePath === '') {
+      basePath = '/';
+    }
+  
+    const fullUrl = basePath + '/resourcesNearYou?' + params.toString();
+  
+    const cleanUrl = fullUrl.replace(/^\/+/, '/');
+  
+    router.push(cleanUrl);
   }
+  
+  
+  
+  
 
   return (
     <div className="w-full bg-white px-4 py-2 flex justify-around items-center shadow-md border-t border-gray-200">

@@ -8,12 +8,17 @@ import SearchNav from '../../components/searchNav';
 import Header from "../../components/navbar/organization/header";
 import Footer from "../../components/navbar/organization/footer";
 import DraggableHandle from '../../components/draggableHandle';
+import useUserLocation from '../../components/utils/getUserLocation';
 
 const MapComponent = dynamic(() => import('../../components/mapBox'), {
   ssr: false,
 }) as React.ComponentType<{ selectedShelter: Shelter | null }>;
 
+
 export default function OrganizationPage() {
+
+  const userLocation = useUserLocation();
+
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [expanded, setExpanded] = useState(false);
 
@@ -43,7 +48,7 @@ export default function OrganizationPage() {
 
       {/* Fixed Icon Row */}
       <div className="absolute bottom-13 left-0 right-0 z-10">
-        <SearchNav />
+             <SearchNav userLocation={userLocation} />
       </div>
 
       {/* Fixed Footer Navigation */}

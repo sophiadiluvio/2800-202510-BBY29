@@ -3,11 +3,10 @@
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import SearchBar from './components/searchbar';
-
-const SearchNav = dynamic(
-  () => import('./components/searchNav'),
-  { ssr: false }
-);
+import SearchNav from './components/searchNav';
+import DraggableHandle from './components/draggableHandle';
+import Footer from "./components/navbar/noAccount/footer";
+import Header from "./components/navbar/noAccount/header";
 
 const MapComponent = dynamic(
   () => import('./components/mapBox'),
@@ -24,6 +23,32 @@ type Shelter = {
 
 export default function Home() {
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+  
+        setUserLocation({
+          lat: latitude,
+          lng: longitude
+        });
+      },
+      (error) => {
+        console.error( error);
+      },
+      {
+        enableHighAccuracy: true
+      }
+    );
+  }, []);
+
   return (
     <>
     <div className="w-full h-[75vh] relative">
