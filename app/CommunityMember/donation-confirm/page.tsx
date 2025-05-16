@@ -1,16 +1,30 @@
-"use client";
+'use client';
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Header from "../../components/navbar/communityMember/header";
 import Footer from "../../components/navbar/communityMember/footer";
 
 export default function DonationConfirmPage() {
-  const [selectedOption, setSelectedOption] = useState("");
+  const searchParams = useSearchParams();
+
+  const [dropoff, setDropoff] = useState<string | null>(null);
+  const shelterName = searchParams.get("shelter");
+  const donation = searchParams.get("donation");
+  const parsedDonation = donation ? JSON.parse(donation) : {};
+
+  const handleFinalConfirm = () => {
+    console.log("---- Donation Confirmed! ----");
+    console.log("Shelter:", shelterName);
+    console.log("Donation:", parsedDonation);
+    console.log("Drop-off time:", dropoff);
+    alert("Donation confirmed!");
+  };
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
       
-      <Header/>
+      <Header />
 
       {/* Card */}
       <div className="bg-yellow-400 m-auto p-6 rounded-md w-11/12 max-w-md text-center border border-black">
@@ -22,19 +36,26 @@ export default function DonationConfirmPage() {
             <button
               key={option}
               className={`bg-gray-200 py-2 rounded ${
-                selectedOption === option ? "ring-2 ring-black" : ""
+                dropoff === option ? "ring-2 ring-black" : ""
               }`}
-              onClick={() => setSelectedOption(option)}
+              onClick={() => setDropoff(option)}
             >
               {option}
             </button>
           ))}
         </div>
 
-        <button className="mt-6 bg-gray-200 py-2 px-6 rounded">Confirm</button>
+        <button
+          onClick={handleFinalConfirm}
+          className="mt-6 bg-gray-200 text-black py-2 px-6 rounded"
+        >
+          Confirm
+        </button>
       </div>
       
       <Footer />
     </main>
   );
 }
+
+
