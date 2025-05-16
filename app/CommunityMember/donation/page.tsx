@@ -34,6 +34,9 @@ export default function DonationPage() {
     console.log("Shelter:", selectedShelter?.name);
     console.log("Donation:", donation);
     alert("Donation request submitted!");
+
+    router.push("/CommunityMember/donation-confirm");
+
   };
 
   return (
@@ -94,7 +97,6 @@ export default function DonationPage() {
     </div>
   </div>
 )}
-
 
         <button
           className="bg-gray-300 py-2 w-full rounded mt-4"
