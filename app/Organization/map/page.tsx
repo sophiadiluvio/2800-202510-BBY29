@@ -8,6 +8,8 @@ import SearchNav from '../../components/searchNav';
 import Header from "../../components/navbar/organization/header";
 import Footer from "../../components/navbar/organization/footer";
 import DraggableHandle from '../../components/draggableHandle';
+import AskAI from '../../components/AskAI';
+
 
 const MapComponent = dynamic(() => import('../../components/mapBox'), {
   ssr: false,
@@ -36,14 +38,15 @@ export default function OrganizationPage() {
         <DraggableHandle onClick={() => setExpanded(!expanded)} />
 
         {/* Search & list */}
-        <div className="px-4 ">
-          <SearchBar onSelect={(shelter) => setSelectedShelter(shelter)} />
-        </div>
+<div className="px-4">
+  <SearchBar onSelect={(shelter) => setSelectedShelter(shelter)} />
+  <AskAI prompt="What can I do to help these shelters?" />
+</div>
       </div>
 
       {/* Fixed Icon Row */}
       <div className="absolute bottom-13 left-0 right-0 z-10">
-        <SearchNav />
+        <SearchNav userLocation={null} />
       </div>
 
       {/* Fixed Footer Navigation */}

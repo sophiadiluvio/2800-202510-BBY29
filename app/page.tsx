@@ -8,6 +8,8 @@ import SearchNav from './components/searchNav';
 import DraggableHandle from './components/draggableHandle';
 import Footer from "./components/navbar/noAccount/footer";
 import Header from "./components/navbar/noAccount/header";
+import AskAI from './components/AskAI';
+
 
 const MapComponent = dynamic(() => import('./components/mapBox'), {
   ssr: false,
@@ -56,9 +58,14 @@ export default function CommunityMemberPage() {
       >
         <DraggableHandle onClick={() => setExpanded(!expanded)} />
 
-        <div className="px-4">
-          <SearchBar onSelect={(shelter: any) => setSelectedShelter(shelter)} />
-        </div>
+          
+
+        {/* Search & list */}
+<div className="px-4">
+  <SearchBar onSelect={(shelter) => setSelectedShelter(shelter)} />
+  <AskAI prompt="What can I do to help these shelters?" />
+</div>
+        
       </div>
       <div className="absolute bottom-13 left-0 right-0 z-10">
       <SearchNav userLocation={userLocation} />

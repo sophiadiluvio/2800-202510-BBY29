@@ -6,10 +6,10 @@ import Footer from "../../components/navbar/organization/footer";
 
 export default function OrganizationProfilePage() {
   const [formData, setFormData] = useState({
-    name: "",
-    location: "",
-    email: "",
-    role: "",
+    name: "Shelter C",
+    location: "789 Main St",
+    email: "shelter@example.com",
+    password: "********",
   });
 
   const [editing, setEditing] = useState(false);
