@@ -76,6 +76,7 @@ const MapComponent = () => {
     const max = shelter.max;
   
     const calc = (key: string) => {
+      if (!inv || !max) return 0;
       const v = inv[key] ?? 0;
       const m = max[key] ?? 1;
       return Math.min((v / m) * 100, 100);
