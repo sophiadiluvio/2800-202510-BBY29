@@ -43,7 +43,7 @@ export default function OrganizationPage() {
 
       {/* Fixed Icon Row */}
       <div className="absolute bottom-13 left-0 right-0 z-10">
-        <SearchNav />
+        <SearchNav userLocation={null} />
       </div>
 
       {/* Fixed Footer Navigation */}
