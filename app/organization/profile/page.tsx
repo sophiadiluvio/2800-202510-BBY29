@@ -9,8 +9,8 @@ export default function OrganizationProfilePage() {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    name: "Shelter B",
-    location: "456 Main St",
+    name: "Shelter C",
+    location: "789 Main St",
     email: "shelter@example.com",
     password: "********",
   });
