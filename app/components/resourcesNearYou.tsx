@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
@@ -53,6 +53,9 @@ export default function ResourcesNearYouPage() {
     return R * c;
   }
 
+  const pathname = usePathname();
+  const basePath = pathname.split('/resourcesNearYou')[0];
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
       <main className="flex-1 p-4 pt-6 pb-20">
@@ -64,7 +67,7 @@ export default function ResourcesNearYouPage() {
           <ul className="space-y-4">
             {shelters.map((shelter: any) => (
               <li key={shelter._id} className="border rounded shadow-sm hover:bg-gray-50 transition">
-                <Link href={`/shelter/${shelter._id}`} className="block p-4">
+                <Link href={`${basePath}/shelter/${shelter._id}`} className="block p-4">
                   <h2 className="text-lg font-semibold">{shelter.name}</h2>
                   <p className="text-sm text-gray-600">{shelter.address}</p>
                   <p className="text-sm">{shelter.distance.toFixed(2)} km away</p>

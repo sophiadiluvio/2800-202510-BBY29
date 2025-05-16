@@ -16,25 +16,34 @@ export default function SearchNav({ userLocation }: Props) {
       alert("Location not available yet.");
       return;
     }
-
+  
     const { lat, lng } = userLocation;
-
-    const params = new URLSearchParams(window.location.search);
-
+  
+    const params = new URLSearchParams();
     params.set('category', category);
     params.set('lat', lat.toString());
     params.set('lng', lng.toString());
   
     let basePath = pathname;
-
+  
     if (pathname.endsWith('/map')) {
-      basePath = pathname.replace(/\/map$/, '');
-      console.log("asdasdasd")
+      basePath = pathname.replace('/map', '');
     }
-
-     router.push(`${basePath}/resourcesNearYou?${params.toString()}`);
-
+  
+    if (basePath === '') {
+      basePath = '/';
+    }
+  
+    const fullUrl = basePath + '/resourcesNearYou?' + params.toString();
+  
+    const cleanUrl = fullUrl.replace(/^\/+/, '/');
+  
+    router.push(cleanUrl);
   }
+  
+  
+  
+  
 
   return (
     <div className="w-full bg-white px-4 py-2 flex justify-around items-center shadow-md border-t border-gray-200">
