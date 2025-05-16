@@ -8,6 +8,7 @@ import SearchNav from './components/searchNav';
 import DraggableHandle from './components/draggableHandle';
 import Footer from "./components/navbar/noAccount/footer";
 import Header from "./components/navbar/noAccount/header";
+import useUserLocation from './components/utils/getUserLocation';
 
 const MapComponent = dynamic(() => import('./components/mapBox'), {
   ssr: false,
@@ -16,30 +17,8 @@ const MapComponent = dynamic(() => import('./components/mapBox'), {
 export default function CommunityMemberPage() {
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [expanded, setExpanded] = useState(false);
-  const [userLocation, setUserLocation] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
-  
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-  
-        setUserLocation({
-          lat: latitude,
-          lng: longitude
-        });
-      },
-      (error) => {
-        console.error( error);
-      },
-      {
-        enableHighAccuracy: true
-      }
-    );
-  }, []);
+
+  const userLocation = useUserLocation();
 
   return (
     <div className="relative h-screen w-full bg-white text-black overflow-hidden">
