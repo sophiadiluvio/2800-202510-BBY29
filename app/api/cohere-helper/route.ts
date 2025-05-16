@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     const response = await cohere.chat({
       message: prompt,
-      model: 'command-r-plus', // or 'command-light' if rate limited
+      model: 'command-light', 
     });
 
     return NextResponse.json({ text: response.text });

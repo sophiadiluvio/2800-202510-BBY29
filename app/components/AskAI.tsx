@@ -36,7 +36,7 @@ export default function AskAI({ prompt }: { prompt: string }) {
         onClick={handleClick}
         className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
       >
-        {loading ? 'Thinking...' : 'Ask AI for help'}
+        {loading ? 'Thinking...' : 'Ask AI "What can I do to help these shelters?'}
       </button>
       {aiResponse && (
         <p className="mt-3 text-gray-700 bg-gray-100 p-3 rounded whitespace-pre-wrap">
