@@ -11,7 +11,7 @@ import type { Shelter } from './../types/shelter';
 import Spinner from './spinner';
 
 type MapComponentProps = {
-  spinnerColor?: string; 
+  spinnerColor?: string;
 };
 
 
@@ -72,20 +72,39 @@ const MapComponent = ({ spinnerColor = 'border-green-600' }: MapComponentProps) 
       }
     };
 
-    const getBar = (label: string, percent: number, color: string) => `
-    <div style="margin-bottom: 10px;">
-      <div style="font-size: 0.85em; color: #333; margin-bottom: 6px;">${label}</div>
-      <div style="background: #e0e0e0; border-radius: 6px; height: 10px; width: 100%;">
+    const getFakeInventoryBar = (label: string, percent: number, id: string) => {
+      const clampedPercent = Math.max(0, Math.min(percent, 100));
+      let color = '#f87171';
+
+      if (clampedPercent >= 66) {
+        color = '#22c55e';
+      } else if (clampedPercent >= 33) {
+        color = '#facc15';
+      }
+
+      return `
+    <div style="display: flex; flex-direction: column; font-size: 13px; margin-bottom: 10px;">
+      <span style="margin-bottom: 4px; color: #333;">${label}</span>
+      <div style="background-color: #e5e7eb; height: 12px; border-radius: 6px; overflow: hidden; position: relative;">
         <div style="
-          background: ${color};
-          width: ${percent}%;
+          width: ${clampedPercent}%;
           height: 100%;
+          background-color: ${color};
           border-radius: 6px;
-          transition: width 0.3s ease;
+          transform: scaleX(0);
+          transform-origin: left;
+          animation: barFillAnim 0.8s ease-out forwards;
         "></div>
       </div>
     </div>
   `;
+    };
+
+
+
+
+
+
 
     const getPopupHTMLByRole = (shelter: Shelter) => {
       const inv = shelter.inv;
@@ -123,43 +142,51 @@ const MapComponent = ({ spinnerColor = 'border-green-600' }: MapComponentProps) 
       }
 
       return `
-      <div style="
-        width: 240px;
-        padding: 16px;
-        font-family: 'Segoe UI', sans-serif;
-        font-size: 14px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      ">
-        <div style="margin-bottom: 12px;">
-          <strong style="font-size: 1em; color: #111;">${shelter.name}</strong><br/>
-          <span style="font-size: 0.85em; color: #666;">${shelter.address}</span>
-        </div>
-  
-        ${getBar(bar1, calc(bar1), '#4caf50')}
-        ${getBar(bar2, calc(bar2), '#f44336')}
-  
-        <a href="${basePath}/shelter/${shelter._id}"
-         style="
-        display: inline-block;
-        width: 100%;
-        padding: 8px 0;
-        margin-top: 12px;
-        text-align: center;
-        background-color: #007ACC;
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-        font-size: 0.9em;
-        font-weight: 500;
-    "
->
-  More Info
-</a>
+  <div style="
+    width: 240px;
+    padding: 16px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  ">
+    <div style="margin-bottom: 12px;">
+      <strong style="font-size: 1em; color: #111;">${shelter.name}</strong><br/>
+      <span style="font-size: 0.85em; color: #666;">${shelter.address}</span>
+    </div>
 
-      </div>
-    `;
+ <style>
+@keyframes barFillAnim {
+  to { transform: scaleX(1); }
+}
+</style>
+
+
+
+   ${getFakeInventoryBar(bar1, calc(bar1), `bar1-${shelter._id}`)}
+${getFakeInventoryBar(bar2, calc(bar2), `bar2-${shelter._id}`)}
+
+
+    <a href="${basePath === '/' ? '' : basePath}/shelter/${shelter._id}"
+       style="
+         display: inline-block;
+         width: 100%;
+         padding: 8px 0;
+         margin-top: 12px;
+         text-align: center;
+         background-color: #007ACC;
+         color: white;
+         text-decoration: none;
+         border-radius: 6px;
+         font-size: 0.9em;
+         font-weight: 500;
+       ">
+      More Info
+    </a>
+  </div>
+`;
+
     };
 
 
@@ -281,5 +308,6 @@ const MapComponent = ({ spinnerColor = 'border-green-600' }: MapComponentProps) 
 
 
 };
+
 
 export default MapComponent;
