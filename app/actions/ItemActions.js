@@ -10,10 +10,10 @@ export async function createItem(formData) {
     const stock = parseInt(formData.get('stock'));
 
     const client = await clientPromise;
-    const db = client.db("ShelterLink");
-    const collection = db.collection("Shelters");
+    const db = await client.db("ShelterLink");
+    const collection = await db.collection("Shelters");
 
-    const result = collection.insertOne({
+    const result = await collection.insertOne({
       name,
     //   price,
       category,
@@ -25,14 +25,14 @@ export async function createItem(formData) {
 
 export async function deleteItem(id) {
   const client = await clientPromise;
-  const result = client.db('ShelterLink').collection('Shelters').deleteOne({ _id: new ObjectId(id)});
+  const result = await client.db('ShelterLink').collection('Shelters').deleteOne({ _id: new ObjectId(id)});
 
   console.log("Item was deleted");
 }
 
 export async function plusItem(id, newValue) {
   const client = await clientPromise;
-  const result = client.db('ShelterLink').collection('Shelters').updateOne({ _id: new ObjectId(id)}, {$set: {stock: newValue}});
+  const result = await client.db('ShelterLink').collection('Shelters').updateOne({ _id: new ObjectId(id)}, {$set: {stock: newValue}});
   
   console.log("increased by ", newValue);
 }
