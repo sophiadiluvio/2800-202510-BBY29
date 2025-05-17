@@ -10,10 +10,12 @@ import type { Feature, FeatureCollection, Point } from 'geojson';
 import type { Shelter } from './../types/shelter';
 import Spinner from './spinner';
 
+type MapComponentProps = {
+  spinnerColor?: string; 
+};
 
 
-
-const MapComponent = () => {
+const MapComponent = ({ spinnerColor = 'border-green-600' }: MapComponentProps) => {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const [shelters, setShelters] = useState<Shelter[]>([]);
@@ -256,7 +258,7 @@ const MapComponent = () => {
   if (loading) {
     loadingOverlay = (
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">
-        <Spinner color="border-green-600" />
+        <Spinner color={spinnerColor} />
       </div>
     );
   }

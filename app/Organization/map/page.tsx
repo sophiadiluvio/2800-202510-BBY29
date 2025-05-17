@@ -9,15 +9,14 @@ import Header from "../../components/navbar/organization/header";
 import Footer from "../../components/navbar/organization/footer";
 import DraggableHandle from '../../components/draggableHandle';
 import AskAI from '../../components/AskAI';
-
-
-const MapComponent = dynamic(() => import('../../components/mapBox'), {
-  ssr: false,
-}) as React.ComponentType<{ selectedShelter: Shelter | null }>;
+import MapComponent from '../../components/mapBox';
+import useUserLocation from '../../components/utils/getUserLocation';
 
 export default function OrganizationPage() {
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [expanded, setExpanded] = useState(false);
+
+    const userLocation = useUserLocation();
 
   return (
     <div className="relative h-screen w-full bg-white text-black overflow-hidden">
@@ -26,7 +25,7 @@ export default function OrganizationPage() {
 
       {/*Map*/}
       <div className="absolute top-16 bottom-44 left-0 right-0 z-0">
-        <MapComponent selectedShelter={selectedShelter} />
+        <MapComponent spinnerColor="border-blue-600" />
       </div>
 
       {/*Expandable Search Panel*/}
@@ -46,7 +45,7 @@ export default function OrganizationPage() {
 
       {/* Fixed Icon Row */}
       <div className="absolute bottom-13 left-0 right-0 z-10">
-        <SearchNav userLocation={null} />
+        <SearchNav userLocation={userLocation} />
       </div>
 
       {/* Fixed Footer Navigation */}

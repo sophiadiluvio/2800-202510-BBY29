@@ -1,6 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import type { Shelter } from './../types/shelter';
 import SearchBar from './../components/searchbar';
@@ -9,13 +8,12 @@ import DraggableHandle from './../components/draggableHandle';
 import Header from "./../components/navbar/communityMember/homepageHeader";
 import Footer from "./../components/navbar/communityMember/footer";
 import AskAI from './../components/AskAI';
-
-
-const MapComponent = dynamic(() => import('./../components/mapBox'), {
-  ssr: false,
-}) as React.ComponentType<{ selectedShelter: Shelter | null }>;
+import useUserLocation from './../components/utils/getUserLocation';
+import MapComponent from './../components/mapBox';
 
 export default function CommunityMemberPage() {
+  const userLocation = useUserLocation();
+
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [expanded, setExpanded] = useState(false);
 
@@ -26,7 +24,7 @@ export default function CommunityMemberPage() {
 
       {/*Map*/}
       <div className="absolute top-16 bottom-44 left-0 right-0 z-0">
-        <MapComponent selectedShelter={selectedShelter} />
+       <MapComponent spinnerColor="border-yellow-500" />
       </div>
 
       {/*Expandable Search Panel*/}
@@ -49,7 +47,7 @@ export default function CommunityMemberPage() {
 
       {/*Fixed Icon Row*/}
       <div className="absolute bottom-13 left-0 right-0 z-10">
-        <SearchNav userLocation={null} />
+        <SearchNav userLocation={userLocation} />
       </div>      
       <div className="absolute bottom-0 left-0 right-0 bg-gray-200 py-3 flex justify-around z-10">
        <Footer />
