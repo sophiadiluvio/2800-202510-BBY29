@@ -4,10 +4,19 @@ import { ObjectId } from "mongodb";
 export async function GET(req, { params }) {
   const client = await clientPromise;
   const db = client.db("ShelterLink");
-  const collection = db.collection("Shelters");
+  const shelterCollection = db.collection("Shelters");
+  const userCollection = db.collection('Users');
 
-  const id = params.id;
+  const { id } = params
 
-    const result = await collection.findOne({ _id: new ObjectId(id) });
-    return Response.json(result);
+  const result = await shelterCollection.findOne({ _id: new ObjectId(id) });
+  const admin = await userCollection.findOne({ _id: result.admin_id });
+  const email = admin.email;
+
+  const shelterWithEmail = {
+    ...result,
+    email,
+  };
+
+  return Response.json(shelterWithEmail);
 }

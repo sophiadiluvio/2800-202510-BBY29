@@ -32,6 +32,7 @@ export default function ShelterPage() {
         <div className="mb-6">
           <h1 className="text-2xl font-bold">{shelter.name}</h1>
           <p className="text-gray-700">{shelter.address}</p>
+          <p className='text-gray-700'>{shelter.email}</p>
         </div>
 
         <InventoryGrid shelter={shelter} />
