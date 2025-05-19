@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import Header from '../../components/navbar/noAccount/header';
 import Footer from '../../components/navbar/noAccount/footer';
 import InventoryGrid from '../../components/inventoryGrid';
@@ -8,9 +9,10 @@ import Spinner from '../../components/spinner';
 
 export default function ShelterPage() {
   const [shelter, setShelter] = useState<any>(null);
+  const {id} = useParams();
 
   useEffect(() => {
-    fetch('/api/shelter/68242e341a54584a3161dfd1')
+      fetch(`/api/shelter/${id}`)
       .then((res) => res.json())
       .then((data) => setShelter(data));
   }, []);
