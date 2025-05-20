@@ -13,10 +13,9 @@ import MapComponent from '../../components/mapBox';
 import useUserLocation from '../../components/utils/getUserLocation';
 
 export default function OrganizationPage() {
-  const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
+  const [selectedShelter, setSelectedShelter] = useState<Shelter | undefined>(undefined);
   const [expanded, setExpanded] = useState(false);
-
-    const userLocation = useUserLocation();
+  const userLocation = useUserLocation();
 
   return (
     <div className="relative h-screen w-full bg-white text-black overflow-hidden">
@@ -25,13 +24,13 @@ export default function OrganizationPage() {
 
       {/*Map*/}
       <div className="absolute top-16 bottom-44 left-0 right-0 z-0">
-        <MapComponent spinnerColor="border-blue-600" />
+            <MapComponent selectedShelter={selectedShelter} spinnerColor="border-blue-600"/>
       </div>
 
       {/*Expandable Search Panel*/}
       <div
         className={`absolute left-0 right-0 bottom-28 bg-purple-100 transition-all duration-300 ease-in-out ${
-          expanded ? 'h-[50vh]' : 'h-[72px]'
+          expanded ? 'h-[40vh]' : 'h-[72px]'
         } overflow-hidden rounded-t-xl shadow-md z-10`}
       >
         <DraggableHandle onClick={() => setExpanded(!expanded)} />

@@ -13,8 +13,7 @@ import MapComponent from './../components/mapBox';
 
 export default function CommunityMemberPage() {
   const userLocation = useUserLocation();
-
-  const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
+  const [selectedShelter, setSelectedShelter] = useState<Shelter | undefined>(undefined);
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -24,13 +23,13 @@ export default function CommunityMemberPage() {
 
       {/*Map*/}
       <div className="absolute top-16 bottom-44 left-0 right-0 z-0">
-       <MapComponent spinnerColor="border-yellow-500" />
+       <MapComponent selectedShelter={selectedShelter} spinnerColor="border-yellow-600"/>
       </div>
 
       {/*Expandable Search Panel*/}
       <div
         className={`absolute left-0 right-0 bottom-28 bg-purple-100 transition-all duration-300 ease-in-out ${
-          expanded ? 'h-[50vh]' : 'h-[72px]'
+          expanded ? 'h-[40vh]' : 'h-[72px]'
         } overflow-hidden rounded-t-xl shadow-md z-10`}
         
       >
