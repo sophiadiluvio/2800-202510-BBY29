@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Home, HandHeart } from "lucide-react";
+import { Home, HandHeart, Heart } from "lucide-react";
+
 
 export default function Footer() {
   return (
@@ -9,6 +10,12 @@ export default function Footer() {
       <Link href="/CommunityMember">
         <div className="flex flex-col items-center">
           <Home size={30} />
+        </div>
+      </Link>
+
+       <Link href="//whatever the donations page is">
+        <div className="flex flex-col items-center">
+          <Heart size={30} />
         </div>
       </Link>
 
