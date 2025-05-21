@@ -30,8 +30,8 @@ export default function CreateShelterPage() {
       geocoder.on('result', (e: any) => {
         const coords = e.result.geometry.coordinates;
         setAddress(e.result.place_name);
-        setLon(String(coords[0]));
-        setLat(String(coords[1]));
+        setLon(coords[0].toFixed(7));
+        setLat(coords[1].toFixed(7));
       });
 
       geocoderRef.current = geocoder;

@@ -75,7 +75,7 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
       </div>
 
       {isListVisible && ( 
-      <ul className="max-w-md mx-auto max-h-48 overflow-y-auto">
+      <ul className="max-w-md mx-auto max-h-35 overflow-y-auto">
         {Array.from( new Map(filtered.map(item => [item._id, item])).values()).map((shelter) => (
           <li
             key={shelter._id}
