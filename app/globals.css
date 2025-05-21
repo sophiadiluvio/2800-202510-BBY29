@@ -106,3 +106,12 @@ opacity: 1 !important;
 }
 
 }
+
+.mapboxgl-popup-close-button {
+  width: 35px !important;
+  height: 35px !important;
+  font-size: 30px !important;
+  line-height: 28px !important;
+  border-radius: 50% !important;
+  background: rgba(0, 0, 0, 0.05) !important;
+}

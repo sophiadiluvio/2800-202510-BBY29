@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import type { Shelter } from '../types/shelter.ts'; // adjust path if needed
+import type { Shelter } from '../types/shelter.ts'; 
 
 
 type Props = {
@@ -75,7 +75,7 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
       </div>
 
       {isListVisible && ( 
-      <ul className="max-w-md mx-auto">
+      <ul className="max-w-md mx-auto max-h-48 overflow-y-auto">
         {Array.from( new Map(filtered.map(item => [item._id, item])).values()).map((shelter) => (
           <li
             key={shelter._id}

@@ -12,17 +12,34 @@ import Spinner from './spinner';
 
 type MapComponentProps = {
   spinnerColor?: string;
+  selectedShelter?: Shelter;  
 };
 
 
-const MapComponent = ({ spinnerColor = 'border-green-600' }: MapComponentProps) => {
+const MapComponent = (props: MapComponentProps) => {
+  const { spinnerColor = 'border-green-600', selectedShelter } = props;
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const [shelters, setShelters] = useState<Shelter[]>([]);
 
   const [loading, setLoading] = useState<boolean>(() => true);
 
+      useEffect(() => {
+    if (selectedShelter == null) {
+      return;
+    }
+    if (mapRef.current == null) {
+      return;
+    }
 
+    const longitude = Number(selectedShelter.lon);
+    const latitude = Number(selectedShelter.lat);
+
+    mapRef.current.flyTo({
+      center: [longitude, latitude],
+      zoom: 14,
+    });
+  }, [selectedShelter]);
 
   useEffect(() => {
     fetch('/api/shelter')
@@ -99,11 +116,6 @@ const MapComponent = ({ spinnerColor = 'border-green-600' }: MapComponentProps) 
     </div>
   `;
     };
-
-
-
-
-
 
 
     const getPopupHTMLByRole = (shelter: Shelter) => {
