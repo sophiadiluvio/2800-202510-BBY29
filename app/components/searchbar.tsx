@@ -60,8 +60,8 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex items-center bg-purple-100 rounded-full px-4 py-2 w-full max-w-md mx-auto mb-4 shadow-sm" onClick={() => setIsListVisible(true)} > 
+    <div className="p-4 w-full max-w-screen-sm mx-auto">
+      <div className="flex items-center bg-purple-100 rounded-full px-4 py-2 w-full shadow-sm" onClick={() => setIsListVisible(true)} > 
         <span className="text-xl mr-2">≡</span>
         <input
           type="text"

@@ -16,7 +16,7 @@ export default function Header({ children }: { children?: ReactNode }) {
       </button>
 
       {/*Centered Title*/}
-      <div className="absolute left-1/2 transform -translate-x-1/2 text-center">
+      <div className="absolute left-1/2 transform -translate-x-1/2 text-center w-full max-w-xs overflow-hidden px-2">
         {children}
       </div>
 
