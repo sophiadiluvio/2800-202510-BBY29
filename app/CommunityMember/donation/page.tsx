@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-
+import { makeDonation } from '../../actions/makeDonation'
 import Header from "../../components/navbar/communityMember/header";
 import Footer from "../../components/navbar/communityMember/footer";
 import ShelterSearch from "../../components/searchbar";
@@ -22,7 +22,7 @@ export default function DonationPage() {
       fetch("/api/shelter")
         .then(res => res.json())
         .then(data => {
-          const selected = data.find(s => s.name === shelterName);
+          const selected = data.find((s: any) => s.name === shelterName);
           if (selected) setSelectedShelter(selected);
         });
     }
@@ -41,8 +41,10 @@ export default function DonationPage() {
   }, [selectedShelter]);
 
   const handleConfirm = () => {
-    console.log("Shelter:", selectedShelter?.name);
+    console.log("Shelter: ", selectedShelter);
+    console.log("Shelter Name:", selectedShelter?.name);
     console.log("Donation:", donation);
+    makeDonation(selectedShelter._id, donation);
     alert("Donation request submitted!");
     router.push("/CommunityMember/donation-confirm");
   };
@@ -53,7 +55,7 @@ export default function DonationPage() {
         <h1 className="text-xl font-bold ml-4">Donation</h1>
       </Header>
 
-      <div className="flex-grow overflow-y-auto px-4 p-6 space-y-4">
+      <div className="flex-grow overflow-y-auto px-4 p-6 space-y-4 pb-16">
         <div className="w-full max-w-screen-sm mx-auto">
           <span className="font-semibold text-black whitespace-nowrap">Shelter Name:</span>
           <div className="flex-1">
