@@ -18,7 +18,7 @@ export default function Footer() {
         </div>
       </Link>
 
-      <Link href="/Organization/resources">
+      <Link href="/Organization/update">
         <div className="flex flex-col items-center">
           <PlusCircle size={30} />
         </div>
