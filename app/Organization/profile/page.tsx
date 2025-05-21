@@ -1,15 +1,16 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Header from "../../components/navbar/organization/header";
-import Footer from "../../components/navbar/organization/footer";
+import { useEffect, useState } from 'react';
+import Header from '../../components/navbar/organization/header';
+import Footer from '../../components/navbar/organization/footer';
+import LogoutButton from '../../components/logoutButton';
 import { editUser, editShelter } from '../../actions/editProfile';
 
 export default function OrganizationProfilePage() {
-  const [userData, setUserData] = useState({ name: "", email: "" });
-  const [shelterData, setShelterData] = useState({ name: "", address: "", role: "" });
+  const [userData, setUserData] = useState({ name: '', email: '' });
+  const [shelterData, setShelterData] = useState({ name: '', address: '', role: '' });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [userEditing, setUserEditing] = useState(false);
   const [shelterEditing, setShelterEditing] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -18,14 +19,14 @@ export default function OrganizationProfilePage() {
     async function fetchProfile() {
       try {
         setLoading(true);
-        const res = await fetch("/api/account");
-        if (!res.ok) throw new Error((await res.json()).error || "Failed to fetch profile");
+        const res = await fetch('/api/account');
+        if (!res.ok) throw new Error((await res.json()).error || 'Failed to fetch profile');
         const { user } = await res.json();
-        setUserData({ name: user?.name || "", email: user?.email || "" });
-        setError("");
+        setUserData({ name: user?.name || '', email: user?.email || '' });
+        setError('');
       } catch (err) {
         console.error(err);
-        setError("Failed to load profile data. Please try again later.");
+        setError('Failed to load profile data. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -34,18 +35,18 @@ export default function OrganizationProfilePage() {
     async function fetchUserShelter() {
       try {
         setLoading(true);
-        const res = await fetch("/api/userShelter");
-        if (!res.ok) throw new Error((await res.json()).error || "Failed to fetch shelter");
+        const res = await fetch('/api/userShelter');
+        if (!res.ok) throw new Error((await res.json()).error || 'Failed to fetch shelter');
         const { userShelter } = await res.json();
         setShelterData({
-          name: userShelter?.name || "",
-          address: userShelter?.address || "",
-          role: userShelter?.role || ""
+          name: userShelter?.name || '',
+          address: userShelter?.address || '',
+          role: userShelter?.role || '',
         });
-        setError("");
+        setError('');
       } catch (err) {
         console.error(err);
-        setError("Failed to load shelter data. Please try again later.");
+        setError('Failed to load shelter data. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -55,8 +56,6 @@ export default function OrganizationProfilePage() {
     fetchUserShelter();
   }, [refresh]);
 
-  // inside OrganizationProfilePage component
-
   const handleUserSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
@@ -65,10 +64,10 @@ export default function OrganizationProfilePage() {
       await editUser(form);
       setUserEditing(false);
       setRefresh(r => !r);
-      alert("✅ User information saved!");
+      alert('✅ User information saved!');
     } catch (err: any) {
       console.error(err);
-      alert(`❌ ${err.message || "Failed to save user."}`);
+      alert(`❌ ${err.message || 'Failed to save user.'}`);
     }
   };
 
@@ -80,13 +79,12 @@ export default function OrganizationProfilePage() {
       await editShelter(form);
       setShelterEditing(false);
       setRefresh(r => !r);
-      alert("✅ Shelter information saved!");
+      alert('✅ Shelter information saved!');
     } catch (err: any) {
       console.error(err);
-      alert(`❌ ${err.message || "Failed to save shelter."}`);
+      alert(`❌ ${err.message || 'Failed to save shelter.'}`);
     }
   };
-
 
   if (loading) {
     return (
@@ -115,7 +113,7 @@ export default function OrganizationProfilePage() {
           </div>
         </div>
 
-        {/* User Information Section */}
+        {/* User Info */}
         <div className="px-6 mt-8">
           <h2 className="text-lg font-semibold mb-4">User Information</h2>
           <form onSubmit={handleUserSave} className="space-y-4">
@@ -141,7 +139,7 @@ export default function OrganizationProfilePage() {
                 onChange={e => setUserData(u => ({ ...u, email: e.target.value }))}
               />
             </div>
-            <div className="flex space-x-4 mt-4">
+            <div className="flex justify-center space-x-4 mt-4">
               {!userEditing ? (
                 <button
                   type="button"
@@ -171,7 +169,7 @@ export default function OrganizationProfilePage() {
           </form>
         </div>
 
-        {/* Shelter Information Section */}
+        {/* Shelter Info */}
         <div className="px-6 mt-8">
           <h2 className="text-lg font-semibold mb-4">Shelter Information</h2>
           <form onSubmit={handleShelterSave} className="space-y-4">
@@ -208,7 +206,7 @@ export default function OrganizationProfilePage() {
                 onChange={e => setShelterData(s => ({ ...s, role: e.target.value }))}
               />
             </div>
-            <div className="flex space-x-4 mt-4">
+            <div className="flex justify-center space-x-4 mt-4">
               {!shelterEditing ? (
                 <button
                   type="button"
@@ -237,10 +235,14 @@ export default function OrganizationProfilePage() {
             </div>
           </form>
         </div>
+
+        {/* Logout button */}
+        <div className="flex justify-center mt-10 mb-6">
+          <LogoutButton />
+        </div>
       </div>
 
       <Footer />
     </main>
   );
 }
-

@@ -42,11 +42,20 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          className="bg-gray-200 py-2 px-8 rounded"
+          className="bg-blue-500 text-white py-2 px-8 rounded hover:bg-blue-600 transition"
         >
           Log in
         </button>
         </form>
+
+        <button
+          type="button"
+          onClick={() => router.push("/register")}
+          className="bg-green-600 text-white py-2 px-8 rounded mt-2 hover:bg-green-600 transition"
+        >
+          Create an account
+        </button>
+
       </div>
 
       <Footer />
