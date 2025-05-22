@@ -56,6 +56,7 @@ export default function DonationsNeededPage() {
 
               {expandedShelter === shelter.name && (
                 <div className="mt-2 ml-4 text-sm space-y-1">
+                  <p className="text-red-500 font-bold mb-1" style={{ fontSize: '17px'}}>Supplies Requested:</p>
                   {Object.entries(shelter.req || {}).map(([item, amount]) => (
                     <div key={item} className="flex justify-between">
                       <span>{item}</span>
