@@ -57,6 +57,45 @@ export default function InfoPage() {
         </ul>
       </section>
 
+      <section className="bg-white p-6 rounded-lg shadow-md mt-10">
+        <h2 className="text-2xl font-semibold mb-4 text-blue-600">What We Track and Why</h2>
+        <p className="text-gray-700 leading-relaxed mb-4">
+          We've identified ten key categories that reflect the most common needs shelters encounter — either as supplies they provide to individuals, or as resources they require to keep their services running. This focused approach makes it easier for shelters to communicate, and for the community to respond in meaningful ways.
+        </p>
+        <ul className="list-disc pl-5 text-gray-700 space-y-4">
+          <li>
+            <strong>Perishable food:</strong> Fresh meals, sandwiches, dairy, and produce offered directly to those in need of nourishment.
+          </li>
+          <li>
+            <strong>Non-perishable food:</strong> Canned goods, pasta, rice, and long-lasting items that form the backbone of many food programs.
+          </li>
+          <li>
+            <strong>Hygiene products:</strong> Essentials like soap, toothpaste, razors, and menstrual supplies — small items that restore dignity and comfort.
+          </li>
+          <li>
+            <strong>Clothing & footwear:</strong> Items like socks, jackets, shoes, and gloves that help individuals stay dry, warm, and prepared for the weather.
+          </li>
+          <li>
+            <strong>Bedding & linens:</strong> Towels, blankets, and pillows that offer a sense of comfort, often handed out or used in temporary housing.
+          </li>
+          <li>
+            <strong>First aid & medical supplies:</strong> Bandages, masks, and over-the-counter medications that help shelters handle everyday health needs.
+          </li>
+          <li>
+            <strong>Cleaning & household supplies:</strong> Disinfectants, paper products, and detergents — crucial for maintaining safe and sanitary spaces.
+          </li>
+          <li>
+            <strong>Beds available:</strong> Tracks how many sleeping spaces a shelter currently has open, helping people find overnight support faster.
+          </li>
+          <li>
+            <strong>Seasonal gear:</strong> Winter coats, rain ponchos, hand warmers, and sunscreen — practical items that match the weather and the season.
+          </li>
+          <li>
+            <strong>Transportation & employment support:</strong> Resources like transit passes, phone cards, and résumé supplies that help people move forward with job searches or appointments.
+          </li>
+        </ul>
+      </section>
+
       <footer className="mt-12 text-center text-gray-500 text-sm">
 
         &copy; 2025 ShelterLink. Empowering communities through clarity and connection.
@@ -65,7 +104,9 @@ export default function InfoPage() {
       <Footer />
     </main>
 
+
     </div>
 
+    
   );
 }
