@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 import { BsQuestionSquareFill } from "react-icons/bs";
+import Image from 'next/image';
+
 
 export default function Header({ children }: { children?: ReactNode }) {
   const router = useRouter();
@@ -14,9 +16,15 @@ export default function Header({ children }: { children?: ReactNode }) {
         <BsQuestionSquareFill size={24} />
       </button>
 
-      <div className="absolute left-1/2 transform -translate-x-1/2 text-xl font-bold">
-        ShelterLink
-      </div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2 text-xl font-bold">
+              <Image
+                src="/logo_transparent.png"
+                alt="ShelterLink Logo"
+                width={25}
+                height={25}
+              />
+              <span className="font-bold text-xl font-sans">{children || 'ShelterLink'}</span>
+            </div>
 
       <button
         onClick={() => router.push('/login')}
