@@ -46,6 +46,34 @@ export async function deleteInvItem(itemKey) {
     );
 }
 
+export async function createMaxItem(formData) {
+  const itemKey = formData.get('itemKey');
+  const max = parseInt(formData.get('max'), 10);
+  if (!itemKey || isNaN(max)) throw new Error('Invalid data');
+  const shelter = await getUserShelter();
+  if (!shelter?._id) throw new Error('Shelter not found');
+  const client = await clientPromise;
+  await client.db('ShelterLink')
+    .collection('Shelters')
+    .updateOne(
+      { _id: new ObjectId(shelter._id) },
+      { $set: { [`max.${itemKey}`]: max } }
+    );
+}
+
+export async function updateMaxItem(itemKey, newValue) {
+  if (!itemKey || isNaN(newValue)) throw new Error('Invalid data');
+  const shelter = await getUserShelter();
+  if (!shelter?._id) throw new Error('Shelter not found');
+  const client = await clientPromise;
+  await client.db('ShelterLink')
+    .collection('Shelters')
+    .updateOne(
+      { _id: new ObjectId(shelter._id) },
+      { $set: { [`max.${itemKey}`]: newValue } }
+    );
+}
+
 export async function setInitialInventory(formData) {
   const inv = parseNestedFields(formData, 'inv');
   const max = parseNestedFields(formData, 'max');
