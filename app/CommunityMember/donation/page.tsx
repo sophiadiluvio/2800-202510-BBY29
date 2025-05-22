@@ -16,6 +16,8 @@ export default function DonationPage() {
   const [selectedShelter, setSelectedShelter] = useState<any>(null);
   const [requestedItems, setRequestedItems] = useState<Record<string, number>>({});
   const [donation, setDonation] = useState<Record<string, number>>({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedWindow, setSelectedWindow] = useState<number[] | null>(null);
 
   useEffect(() => {
     if (shelterName) {
@@ -41,13 +43,26 @@ export default function DonationPage() {
   }, [selectedShelter]);
 
   const handleConfirm = () => {
-    console.log("Shelter: ", selectedShelter);
-    console.log("Shelter Name:", selectedShelter?.name);
-    console.log("Donation:", donation);
-    makeDonation(selectedShelter._id, donation);
-    alert("Donation request submitted!");
-    router.push("/CommunityMember/donation-confirm");
+    setShowPopup(true);
   };
+
+  const handleWindowSelect = (window: number[]) => {
+    setSelectedWindow(window);
+
+    const now = new Date();
+    const opening = new Date(now);
+    opening.setDate(opening.getDate() + window[0]);
+
+    const closing = new Date(now);
+    closing.setDate(closing.getDate() + window[1]);
+
+    const openingDate = opening.toISOString().split('T')[0];
+    const closingDate = closing.toISOString().split('T')[0];
+
+    makeDonation(selectedShelter._id, donation, openingDate, closingDate);
+    router.push("/CommunityMember/profile");
+  };
+
 
   return (
     <main className="h-screen bg-white text-black font-sans flex flex-col overflow-x-hidden">
@@ -109,6 +124,47 @@ export default function DonationPage() {
           Confirm Donation
         </button>
       </div>
+    {showPopup && (
+  <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50 px-4">
+    <div className="bg-yellow-400 border border-black rounded-xl shadow-xl w-full max-w-sm p-6 space-y-4 text-center">
+      <h2 className="text-xl font-extrabold text-black">Confirm Donation Request</h2>
+      <p className="text-sm text-black font-medium">
+        When would you like<br />to drop off your donations?
+      </p>
+
+      <div className="grid grid-cols-3 gap-2">
+        <button
+          className="bg-gray-200 hover:bg-gray-300 text-black font-medium py-2 px-2 rounded"
+          onClick={() => handleWindowSelect([1, 3])}
+        >
+          1 to 3 days
+        </button>
+        <button
+          className="bg-gray-200 hover:bg-gray-300 text-black font-medium py-2 px-2 rounded"
+          onClick={() => handleWindowSelect([4, 7])}
+        >
+          4 to 7 days
+        </button>
+        <button
+          className="bg-gray-200 hover:bg-gray-300 text-black font-medium py-2 px-2 rounded"
+          onClick={() => handleWindowSelect([7, 14])}
+        >
+          1 to 2 weeks
+        </button>
+      </div>
+
+      <button
+        className="mt-4 bg-yellow-200 hover:bg-yellow-300 text-black font-semibold py-2 px-4 rounded w-full"
+        onClick={() => setShowPopup(false)}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
+
+
+
 
       <Footer />
     </main>
