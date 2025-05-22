@@ -50,7 +50,7 @@ export async function middleware(request) {
                 if (path.startsWith('/Organization')) {
                     return NextResponse.next();
                 } else {
-                    const res = NextResponse.redirect(new URL('/Organization/profile', request.url));
+                    const res = NextResponse.redirect(new URL('/Organization', request.url));
                     return res;
                 }
 
@@ -58,7 +58,7 @@ export async function middleware(request) {
                 if (path.startsWith('/CommunityMember')) {
                     return NextResponse.next();
                 } else {
-                    const res = NextResponse.redirect(new URL('/CommunityMember/profile', request.url));
+                    const res = NextResponse.redirect(new URL('/CommunityMember', request.url));
                     return res;
                 }
             } else {

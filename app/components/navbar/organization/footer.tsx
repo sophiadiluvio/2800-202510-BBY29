@@ -23,7 +23,7 @@ export default function Footer() {
 
   const handleRedirectToStatus = () => {
     if (shelterId) {
-      router.push(`/Organization/shelter/${shelterId}/status`);
+      router.push(`/Organization`);
     } else {
       alert('Shelter ID not found.');
     }
