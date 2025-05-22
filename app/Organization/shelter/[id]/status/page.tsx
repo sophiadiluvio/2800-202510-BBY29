@@ -2,33 +2,56 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Header from '../../components/navbar/organization/header';
-import Footer from '../../components/navbar/organization/footer';
-import Spinner from '../../components/spinner';
+import Header from '../../../../components/navbar/organization/header';
+import Footer from '../../../../components/navbar/organization/footer';
+import Spinner from '../../../../components/spinner';
 
-// Define a type for the resource data
-type ResourceStatus = {
-  [key: string]: number;
-};
+type ResourceStatus = { [key: string]: number };
 
 export default function OrganizationStatusPage() {
   const router = useRouter();
   const { id } = useParams();
 
-  const [resourceStatus, setResourceStatus] = useState<ResourceStatus | null>(null);
+  const [inventory, setInventory] = useState<ResourceStatus | null>(null);
+  const [maxValues, setMaxValues] = useState<ResourceStatus | null>(null);
   const [animateBars, setAnimateBars] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Fetch shelter data
   useEffect(() => {
+    if (!id) return;
+
     fetch(`/api/shelter/${id}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
-        setResourceStatus(data.resources);
+        if (!data.inv || !data.max) throw new Error('Missing inventory or max data');
+
+        const normalizedMax: ResourceStatus = {};
+        for (const [key, value] of Object.entries(data.max) as [string, number][]) {
+          normalizedMax[key.toLowerCase()] = value;
+        }
+
+        setInventory(data.inv); 
+        setMaxValues(normalizedMax);
         setTimeout(() => setAnimateBars(true), 100);
+      })
+      .catch(err => {
+        console.error('Error fetching shelter:', err);
+        setError('Failed to load shelter data.');
       });
   }, [id]);
 
-  if (!resourceStatus) {
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white text-black">
+        <p className="text-red-600 text-center">{error}</p>
+      </div>
+    );
+  }
+
+  if (!inventory || !maxValues) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white text-black">
         <Spinner color="border-green-600" />
@@ -36,18 +59,18 @@ export default function OrganizationStatusPage() {
     );
   }
 
-  const max = Math.max(...Object.values(resourceStatus));
-
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
       <Header>
         <h1 className="text-xl font-bold ml-4">Current Status</h1>
       </Header>
 
-      {/* Resource Bars */}
       <div className="grid grid-cols-2 gap-4 px-6 mt-6">
-        {Object.entries(resourceStatus).map(([label, amount]) => {
+        {Object.entries(inventory).map(([label, amount]) => {
+          const normalizedLabel = label.toLowerCase();
+          const max = maxValues[normalizedLabel] ?? 1;
           const percentage = Math.min(amount / max, 1);
+
           const color =
             percentage >= 0.66
               ? 'bg-green-500'
@@ -74,25 +97,22 @@ export default function OrganizationStatusPage() {
                   </div>
                 </div>
               </div>
-              <div className="mt-2 text-sm capitalize text-center">
-                {label.replace(/([A-Z])/g, ' $1')}
-              </div>
+              <div className="mt-2 text-sm text-center">{label}</div>
             </div>
           );
         })}
       </div>
 
-      {/* Action Buttons */}
       <div className="mt-6 px-6 space-y-3">
         <button
           className="bg-gray-300 w-full py-2 rounded"
-          onClick={() => router.push(`/organization/update/${id}`)}
+          onClick={() => router.push(`/Organization/update`)}
         >
           Item Update
         </button>
         <button
           className="bg-gray-300 w-full py-2 rounded"
-          onClick={() => router.push(`/organization/resources/${id}`)}
+          onClick={() => router.push(`/Organization/resources`)}
         >
           Resource Request
         </button>
