@@ -6,6 +6,8 @@ import Footer from '../../components/navbar/communityMember/footer';
 import LogoutButton from '../../components/logoutButton';
 import { editUser, editShelter } from '../../actions/editProfile';
 import Spinner from '../../components/spinner';
+import { CgProfile } from "react-icons/cg";
+
 
 export default function OrganizationProfilePage() {
   const [userData, setUserData] = useState({ name: '', email: '' });
@@ -88,8 +90,8 @@ export default function OrganizationProfilePage() {
         )}
 
         <div className="flex flex-col items-center mt-6">
-          <div className="w-24 h-24 rounded-full bg-gray-800 flex items-center justify-center">
-            <span className="text-5xl text-white">👤</span>
+          <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center">
+             <CgProfile className="w-30 h-30 text-black" />
           </div>
         </div>
 
