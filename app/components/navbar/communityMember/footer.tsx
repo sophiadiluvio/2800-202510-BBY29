@@ -13,7 +13,7 @@ export default function Footer() {
         </div>
       </Link>
 
-       <Link href="//whatever the donations page is">
+       <Link href="/CommunityMember/resourcesNearYou?category=favorites">
         <div className="flex flex-col items-center">
           <Heart size={30} />
         </div>

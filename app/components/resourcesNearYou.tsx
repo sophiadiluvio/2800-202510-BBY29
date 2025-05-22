@@ -12,12 +12,12 @@ export default function ResourcesNearYouPage() {
   const lng = parseFloat(searchParams.get('lng') || '');
 
   const [shelters, setShelters] = useState([]);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   const pathname = usePathname();
   const basePath = pathname.split('/resourcesNearYou')[0];
 
   let pageTitle = 'Nearby Resources';
-
   if (category === 'food') pageTitle = 'Food Support Near You';
   else if (category === 'overnight') pageTitle = 'Overnight Shelters Near You';
   else if (category === 'distribution') pageTitle = 'Clothing and Essentials Near You';
@@ -25,20 +25,43 @@ export default function ResourcesNearYouPage() {
 
   useEffect(() => {
     async function fetchData() {
-      const shelterRes = await fetch('/api/shelter');
-      const shelterData = await shelterRes.json();
+      try {
 
-      if (category === 'favorites') {
-        const userRes = await fetch('/api/account', { cache: 'no-store' });
-        const userData = await userRes.json();
+        const shelterRes = await fetch('/api/shelter');
+        const shelterData = await shelterRes.json();
 
-        const favIds = userData.user.favourites.map((id: any) => id.toString());
-        const favShelters = shelterData.filter((shelter: any) =>
-          favIds.includes(shelter._id.toString())
-        );
+        let role = null;
+        let favourites = [];
 
-        setShelters(favShelters);
-      } else {
+        try {
+          const userRes = await fetch('/api/account', { cache: 'no-store' });
+          if (userRes.ok) {
+            const userData = await userRes.json();
+            if (userData.user) {
+              role = userData.user.role;
+              favourites = userData.user.favourites || [];
+            }
+          }
+        } catch (err) {
+          console.warn('Not logged in.');
+        }
+
+        setUserRole(role);
+
+        if (category === 'favorites') {
+          if (role !== 'community_member') {
+            setShelters([]); 
+            return;
+          }
+
+          const favIds = favourites.map((id: any) => id.toString());
+          const favShelters = shelterData.filter((shelter: any) =>
+            favIds.includes(shelter._id.toString())
+          );
+          setShelters(favShelters);
+          return;
+        }
+
         const filtered = shelterData
           .filter((shelter: any) => shelter.role === category)
           .map((shelter: any) => {
@@ -48,6 +71,8 @@ export default function ResourcesNearYouPage() {
           .sort((a, b) => a.distance - b.distance);
 
         setShelters(filtered);
+      } catch (error) {
+        console.error('Error loading shelters:', error);
       }
     }
 
@@ -72,22 +97,25 @@ export default function ResourcesNearYouPage() {
         <h1 className="text-2xl font-bold mb-4">{pageTitle}</h1>
 
         {shelters.length === 0 ? (
-          <p>No shelters found for this category.</p>
+          <p className="text-gray-600">No shelters found for this category.</p>
         ) : (
           <ul className="space-y-4">
-
             {shelters.map((shelter: any) => (
               <li key={shelter._id} className="border rounded shadow-sm hover:bg-gray-50 transition p-4">
-
                 <div className="flex justify-between items-center mb-2">
-                  <Link href={`${basePath}/shelter/${shelter._id}`} className="text-lg font-semibold hover:underline">
+                  <Link
+                    href={`${basePath}/shelter/${shelter._id}`}
+                    className="text-lg font-semibold hover:underline"
+                  >
                     {shelter.name}
                   </Link>
-                  <FavouriteButton shelterId={shelter._id.toString()} />
+
+                  {userRole === 'community_member' && (
+                    <FavouriteButton shelterId={shelter._id.toString()} />
+                  )}
                 </div>
 
                 <p className="text-sm text-gray-600">{shelter.address}</p>
-
                 {'distance' in shelter && (
                   <p className="text-sm">{shelter.distance.toFixed(2)} km away</p>
                 )}
