@@ -1,12 +1,23 @@
+import Image from 'next/image';
+
 export default function InfoPage() {
   return (
     <main className="max-w-4xl mx-auto px-6 py-12 bg-gray-50 text-gray-800">
-      <section className="mb-12 text-center">
+    <section className="mb-12 text-center">
+        <div className="mx-auto mb-6 w-40">
+            <Image
+            src="/logo_transparent.png"
+            alt="ShelterLink Logo"
+            width={160}
+            height={160}
+            layout="responsive"
+            />
+        </div>
         <h1 className="text-4xl font-bold mb-4 text-blue-700">Welcome to ShelterLink</h1>
         <p className="text-lg text-gray-600">
-          Bridging the communication gap between shelters, volunteers, and those in need.
+            Bridging the communication gap between shelters, volunteers, and those in need.
         </p>
-      </section>
+    </section>
 
       <section className="bg-white p-6 rounded-lg shadow-md mb-10">
         <h2 className="text-2xl font-semibold mb-4 text-blue-600">Why We Built This App</h2>
