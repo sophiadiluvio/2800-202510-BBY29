@@ -6,7 +6,7 @@ import SearchBar from './components/searchbar';
 import SearchNav from './components/searchNav';
 import DraggableHandle from './components/draggableHandle';
 import Footer from "./components/navbar/noAccount/footer";
-import Header from "./components/navbar/noAccount/header";
+import Header from "./components/navbar/noAccount/homepageHeader";
 import useUserLocation from './components/utils/getUserLocation';
 import MapComponent from './components/mapBox';
 

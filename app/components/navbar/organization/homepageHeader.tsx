@@ -21,7 +21,7 @@ export default function Header({ children }: { children?: ReactNode }) {
       {/* Profile icon */}
       <button
         onClick={() => router.push('/CommunityMember/profile')}
-        className="bg-white rounded-full w-8 h-8 flex items-center justify-center"
+        className="z-10"
       ><CgProfile size={40} />
         <span className="text-lg"></span>
       </button>
