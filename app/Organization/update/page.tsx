@@ -15,19 +15,18 @@ export default function CurrentStatusPage() {
   };
 
   return (
-    <main>
-    <Header>
-      <h1 className="text-xl font-bold ml-4">Update Status</h1>
-    </Header>
-    
-    <div className="p-6">
-      {/* Uncommented the ItemForm component */}
-      <ItemForm addedItem={handleRefresh} />
-      <ItemsList key={refresh} />
-      
-    </div>
+    <main className="min-h-screen bg-white text-black flex flex-col">
+      <Header>
+        <h1 className="text-xl font-bold ml-4">Update Status</h1>
+      </Header>
 
-    <Footer />
+      <div className="flex-1 p-6">
+        <ItemForm addedItem={handleRefresh} />
+        <ItemsList key={refresh} />
+      </div>
+
+      <Footer />
     </main>
+
   );
 }
