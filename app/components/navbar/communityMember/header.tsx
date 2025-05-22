@@ -4,8 +4,6 @@ import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 import { ArrowLeft } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
-import Image from 'next/image';
-
 
 export default function Header({ children }: { children?: ReactNode }) {
   const router = useRouter();
@@ -18,16 +16,9 @@ export default function Header({ children }: { children?: ReactNode }) {
       </button>
 
       {/*Centered Title*/}
-      <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2 text-xl font-bold">
-        <Image
-          src="/logo_transparent.png"
-          alt="ShelterLink Logo"
-          width={25}
-          height={25}
-        />
-        <span>ShelterLink</span>
+      <div className="absolute left-1/2 transform -translate-x-1/2 text-center w-full max-w-xs overflow-hidden px-2">
+        {children}
       </div>
-
 
       {/*Profile Icon*/}
       <button
