@@ -120,6 +120,13 @@ export default function OrganizationStatusPage() {
           >
             Resource Request
           </button>
+
+          <button
+            className="bg-gray-300 w-full py-2 rounded"
+            onClick={() => router.push(`/Organization/incomingDonations`)}
+          >
+            Incoming Donations
+          </button>
         </div>
       </main>
 
