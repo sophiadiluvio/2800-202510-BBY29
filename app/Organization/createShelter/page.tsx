@@ -6,6 +6,9 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import Header from '../../components/navbar/organization/header';
 import { createShelter } from '../../actions/createShelter';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
@@ -17,6 +20,8 @@ export default function CreateShelterPage() {
   const [lon, setLon] = useState('');
   const [website, setWebsite] = useState('');
   const geocoderRef = useRef<any>(null);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (!geocoderRef.current) {
@@ -47,17 +52,24 @@ export default function CreateShelterPage() {
 
       <div className="flex flex-col items-center justify-center flex-grow space-y-4 mt-10 text-center">
         <h2 className="text-lg font-semibold text-blue-600">Shelter Information</h2>
-
         <form
-          action={createShelter}
           onSubmit={(e) => {
+            e.preventDefault();
+
             if (!lat || !lon || !address) {
-              e.preventDefault();
               alert('Please select a valid address using the search box.');
+              return;
             }
+
+            const formData = new FormData(e.currentTarget);
+
+            startTransition(async () => {
+              await createShelter(formData);
+            });
           }}
           className="flex flex-col gap-4"
         >
+
           <input
             name="name"
             type="text"

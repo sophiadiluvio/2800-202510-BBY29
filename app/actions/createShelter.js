@@ -41,5 +41,5 @@ export async function createShelter(formData) {
     { $set: { shelterId: resultShelter.insertedId } }
   );
 
-  redirect('/Organization/profile');
+  redirect('/Organization/createShelter/inventoryInitialization');
 }

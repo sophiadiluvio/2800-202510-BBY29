@@ -46,3 +46,36 @@ export async function deleteInvItem(itemKey) {
     );
 }
 
+export async function setInitialInventory(formData) {
+  const inv = parseNestedFields(formData, 'inv');
+  const max = parseNestedFields(formData, 'max');
+  const req = parseNestedFields(formData, 'req');
+
+  const shelter = await getUserShelter();
+  if (!shelter?._id) throw new Error('Shelter not found');
+
+  const client = await clientPromise;
+  await client.db('ShelterLink').collection('Shelters').updateOne(
+    { _id: new ObjectId(shelter._id) },
+    {
+      $set: {
+        inv,
+        max,
+        req,
+      },
+    }
+  );
+}
+
+function parseNestedFields(formData, prefix) {
+  const result = {};
+  for (const [key, value] of formData.entries()) {
+    if (key.startsWith(`${prefix}[`)) {
+      const category = key.slice(prefix.length + 1, -1);
+      result[category] = parseInt(value);
+    }
+  }
+  return result;
+}
+
+
