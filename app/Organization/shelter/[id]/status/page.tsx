@@ -112,7 +112,7 @@ export default function OrganizationStatusPage() {
         </button>
         <button
           className="bg-gray-300 w-full py-2 rounded"
-          onClick={() => router.push(`/Organization/resources`)}
+          onClick={() => router.push(`/Organization/resourceRequest`)}
         >
           Resource Request
         </button>
