@@ -6,20 +6,19 @@ import Header from '../../../../components/navbar/organization/header';
 import Footer from '../../../../components/navbar/organization/footer';
 import Spinner from '../../../../components/spinner';
 
-type ResourceStatus = {
-  [key: string]: number;
-};
+type ResourceStatus = { [key: string]: number };
 
 export default function OrganizationStatusPage() {
   const router = useRouter();
   const { id } = useParams();
 
-  const [resourceStatus, setResourceStatus] = useState<ResourceStatus | null>(null);
+  const [inventory, setInventory] = useState<ResourceStatus | null>(null);
+  const [maxValues, setMaxValues] = useState<ResourceStatus | null>(null);
   const [animateBars, setAnimateBars] = useState(false);
-  const [error, setError] = useState<string | null>(null); // NEW
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return; 
+    if (!id) return;
 
     fetch(`/api/shelter/${id}`)
       .then(res => {
@@ -27,8 +26,15 @@ export default function OrganizationStatusPage() {
         return res.json();
       })
       .then(data => {
-        if (!data.inv) throw new Error('Missing inv in API response');
-        setResourceStatus(data.inv);
+        if (!data.inv || !data.max) throw new Error('Missing inventory or max data');
+
+        const normalizedMax: ResourceStatus = {};
+        for (const [key, value] of Object.entries(data.max) as [string, number][]) {
+          normalizedMax[key.toLowerCase()] = value;
+        }
+
+        setInventory(data.inv); 
+        setMaxValues(normalizedMax);
         setTimeout(() => setAnimateBars(true), 100);
       })
       .catch(err => {
@@ -45,15 +51,13 @@ export default function OrganizationStatusPage() {
     );
   }
 
-  if (!resourceStatus) {
+  if (!inventory || !maxValues) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white text-black">
         <Spinner color="border-green-600" />
       </div>
     );
   }
-
-  const max = Math.max(...Object.values(resourceStatus));
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
@@ -62,8 +66,11 @@ export default function OrganizationStatusPage() {
       </Header>
 
       <div className="grid grid-cols-2 gap-4 px-6 mt-6">
-        {Object.entries(resourceStatus).map(([label, amount]) => {
+        {Object.entries(inventory).map(([label, amount]) => {
+          const normalizedLabel = label.toLowerCase();
+          const max = maxValues[normalizedLabel] ?? 1;
           const percentage = Math.min(amount / max, 1);
+
           const color =
             percentage >= 0.66
               ? 'bg-green-500'
@@ -90,9 +97,7 @@ export default function OrganizationStatusPage() {
                   </div>
                 </div>
               </div>
-              <div className="mt-2 text-sm capitalize text-center">
-                {label.replace(/([A-Z])/g, ' $1')}
-              </div>
+              <div className="mt-2 text-sm text-center">{label}</div>
             </div>
           );
         })}
