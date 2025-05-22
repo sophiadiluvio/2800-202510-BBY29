@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import Header from '../../components/navbar/communityMember/header';
 import Footer from '../../components/navbar/communityMember/footer';
 import LogoutButton from '../../components/logoutButton';
-import { editUser, editShelter } from '../../actions/editProfile';
+import { editUser, editShelter, updateAcceptedDonations } from '../../actions/editProfile';
 import Spinner from '../../components/spinner';
 import { CgProfile } from "react-icons/cg";
+
 
 
 export default function OrganizationProfilePage() {
@@ -17,6 +18,11 @@ export default function OrganizationProfilePage() {
   const [userEditing, setUserEditing] = useState(false);
   const [shelterEditing, setShelterEditing] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [pendingDonations, setPendingDonations] = useState<any[]>([]);
+  const [expandedDonation, setExpandedDonation] = useState<number | null>(null);
+  const [shelterNames, setShelterNames] = useState<Record<string, string>>({});
+
+
 
   useEffect(() => {
     async function fetchProfile() {
@@ -26,6 +32,35 @@ export default function OrganizationProfilePage() {
         if (!res.ok) throw new Error((await res.json()).error || 'Failed to fetch profile');
         const { user } = await res.json();
         setUserData({ name: user?.name || '', email: user?.email || '' });
+
+        if (user?.accepted && typeof user.accepted === 'object') {
+          const formatted = Object.entries(user.accepted).map(([shelterId, details]) => {
+            const data = details as {
+              donation: Record<string, number>;
+              opening: string;
+              closing: string;
+            };
+
+            return {
+              shelterId,
+              items: data.donation,
+              opening: data.opening,
+              closing: data.closing
+            };
+          });
+
+          setPendingDonations(formatted);
+          formatted.forEach(donation => {
+            if (!shelterNames[donation.shelterId]) {
+              fetchShelterName(donation.shelterId);
+            }
+          });
+
+        } else {
+          setPendingDonations([]);
+        }
+
+
         setError('');
       } catch (err) {
         console.error(err);
@@ -33,10 +68,24 @@ export default function OrganizationProfilePage() {
       } finally {
         setLoading(false);
       }
+
     }
 
     fetchProfile();
   }, [refresh]);
+
+  async function fetchShelterName(id: string) {
+    try {
+      const res = await fetch(`/api/shelter/${id}`);
+      if (!res.ok) throw new Error('Shelter not found');
+      const data = await res.json();
+      setShelterNames(prev => ({ ...prev, [id]: data.name }));
+    } catch (err) {
+      console.error('Error fetching shelter name:', err);
+      setShelterNames(prev => ({ ...prev, [id]: 'Unknown Shelter' }));
+    }
+  }
+
 
   const handleUserSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -70,11 +119,34 @@ export default function OrganizationProfilePage() {
 
   if (loading) {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-white text-black">
-              <Spinner color="border-yellow-600" />
-            </div>
+      <div className="min-h-screen flex items-center justify-center bg-white text-black">
+        <Spinner color="border-yellow-600" />
+      </div>
     );
   }
+
+  const handleCancelDonation = async (shelterId: string) => {
+    try {
+      const updatedAccepted = pendingDonations
+        .filter(d => d.shelterId !== shelterId)
+        .reduce((acc, curr) => {
+          acc[curr.shelterId] = {
+            donation: curr.items,
+            opening: curr.opening,
+            closing: curr.closing
+          };
+          return acc;
+        }, {} as Record<string, any>);
+
+      await updateAcceptedDonations(updatedAccepted);
+
+      setRefresh(r => !r); // Re-fetch user info
+    } catch (err) {
+      console.error('Failed to cancel donation', err);
+      alert('Could not cancel the donation. Try again later.');
+    }
+  };
+
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
@@ -91,7 +163,7 @@ export default function OrganizationProfilePage() {
 
         <div className="flex flex-col items-center mt-6">
           <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center">
-             <CgProfile className="w-30 h-30 text-black" />
+            <CgProfile className="w-30 h-30 text-black" />
           </div>
         </div>
 
@@ -147,18 +219,63 @@ export default function OrganizationProfilePage() {
                   </button>
                 </>
               )}
-              
+
             </div>
           </form>
         </div>
 
-         <div className="flex justify-center mt-10 mb-6">
+        <div className="flex justify-center mt-10 mb-6">
           <a
             href="./requested-donations"
             className="bg-yellow-500 text-white py-2 px-6 rounded"
           >
             Donate
           </a>
+        </div>
+        <div className="px-6 mt-12">
+          <h2 className="text-lg font-semibold mb-4">Your Upcoming Donations</h2>
+          {pendingDonations.length === 0 ? (
+            <p className="text-sm text-gray-600">You have no upcoming donations.</p>
+          ) : (
+            <div className="bg-gray-100 p-4 rounded-md space-y-4">
+              {pendingDonations.map((donation, index) => (
+                <div key={index} className="border-b pb-4">
+                  <div
+                    onClick={() =>
+                      setExpandedDonation(prev => (prev === index ? null : index))
+                    }
+                    className="font-semibold text-base cursor-pointer hover:text-blue-600"
+                  >
+                    Donation to: {shelterNames[donation.shelterId] || 'Loading...'}
+                  </div>
+
+                  {expandedDonation === index && (
+                    <div className="ml-2 mt-2 text-sm space-y-1">
+                      <p className="text-green-500 font-bold text-[17px]">
+                        Supplies Sending:
+                      </p>
+                      {Object.entries(donation.items).map(([item, qty]) => (
+                        <div key={item} className="flex justify-between">
+                          <span>{item}</span>
+                          <span>{String(qty)}</span>
+                        </div>
+                      ))}
+                      <p><span className="font-semibold">Opens:</span> {donation.opening}</p>
+                      <p><span className="font-semibold">Closes:</span> {donation.closing}</p>
+                      <button
+                        onClick={() => handleCancelDonation(donation.shelterId)}
+
+                        className="mt-2 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                      >
+                        Cancel Donation
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+
+            </div>
+          )}
         </div>
 
         {/* Logout button */}

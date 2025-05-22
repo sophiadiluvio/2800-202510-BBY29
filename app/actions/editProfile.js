@@ -43,3 +43,19 @@ export async function editShelter(formData) {
         { $set: { name, address, role } }
     );
 }
+
+
+export async function updateAcceptedDonations(updatedAccepted) {
+  const user = await getCurrentUser();
+  if (!user) throw new Error('Unauthorized');
+
+  const client = await clientPromise;
+  const userCollection = await client.db('ShelterLink').collection('Users');
+
+  await userCollection.updateOne(
+    { _id: user._id },
+    { $set: { accepted: updatedAccepted } }
+  );
+
+  return { success: true };
+}
