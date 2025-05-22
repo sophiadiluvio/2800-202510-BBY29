@@ -26,7 +26,7 @@ export default function NoLoginMemberPage() {
       </div>
       <div
         className={`absolute left-0 right-0 bottom-28 bg-gradient-to-t from-white via-white/100 to-white/90 transition-all duration-300 ease-in-out ${
-          expanded ? 'h-[40vh]' : 'h-[72px]'
+          expanded ? 'h-[25vh]' : 'h-[72px]'
         } overflow-hidden rounded-t-xl shadow-md z-10`}
       >
         <DraggableHandle onClick={() => setExpanded(!expanded)} />
