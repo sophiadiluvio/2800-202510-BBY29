@@ -46,7 +46,6 @@ export default function DonationPage() {
     console.log("Donation:", donation);
     makeDonation(selectedShelter._id, donation);
     alert("Donation request submitted!");
-    router.push("/CommunityMember/donation-confirm");
   };
 
   return (
