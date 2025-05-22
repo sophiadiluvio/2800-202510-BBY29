@@ -35,9 +35,10 @@ export default function DonationsNeededPage() {
 
   return (
     <div className="flex flex-col h-screen bg-white text-black">
-      <Header>
-        <h1 className="text-xl font-bold">Donations Needed</h1>
-      </Header>
+      <Header />
+      <h1 className="text-2xl font-bold px-6 pt-4 pb-2">Donations Needed</h1>
+
+    
 
       <main className="flex-grow overflow-y-auto px-6 py-4 pb-24 space-y-4">
         <section className="bg-gray-100 p-4 rounded-md">

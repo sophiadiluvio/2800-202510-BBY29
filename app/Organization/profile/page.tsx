@@ -100,7 +100,7 @@ export default function OrganizationProfilePage() {
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
       <Header>
-        <h1 className="text-xl font-bold ml-4">Organization Account Details</h1>
+        <h1 className="text-xl font-bold ml-4">Account Details</h1>
       </Header>
 
       <div className="flex-1 pb-24">

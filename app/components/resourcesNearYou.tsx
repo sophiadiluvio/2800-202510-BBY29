@@ -22,6 +22,8 @@ export default function ResourcesNearYouPage() {
   else if (category === 'overnight') pageTitle = 'Overnight Shelters Near You';
   else if (category === 'distribution') pageTitle = 'Clothing and Essentials Near You';
   else if (category === 'favorites') pageTitle = 'Favorite Locations';
+  else if (category === 'women') pageTitle = 'Women\'s Shelters near you';
+
 
   useEffect(() => {
     async function fetchData() {
@@ -68,7 +70,7 @@ export default function ResourcesNearYouPage() {
             const distance = getDistance(lat, lng, shelter.lat, shelter.lon);
             return { ...shelter, distance };
           })
-          .sort((a, b) => a.distance - b.distance);
+          .sort((a: { distance: number; }, b: { distance: number; }) => a.distance - b.distance);
 
         setShelters(filtered);
       } catch (error) {
