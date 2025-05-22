@@ -22,7 +22,7 @@ export default function Header({ children }: { children?: ReactNode }) {
 
       {/*Profile Icon*/}
       <button
-        onClick={() => router.push("/CommunityMember/profile")}
+        onClick={() => router.push("/Organization/profile")}
         className="z-10"
       >
         <CgProfile size={40} />

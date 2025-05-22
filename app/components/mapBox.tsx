@@ -187,7 +187,7 @@ const MapComponent = (props: MapComponentProps) => {
           bar2 = 'Non-perishable food';
           break;
         case 'overnight':
-          bar1 = 'Available beds';
+          bar1 = 'Beds available';
           bar2 = 'Bedding & linens';
           break;
         case 'women':
@@ -223,8 +223,15 @@ const MapComponent = (props: MapComponentProps) => {
   }
   </style>
 
-  ${getFakeInventoryBar(bar1, calc(bar1), `bar1-${shelter._id}`)}
-  ${getFakeInventoryBar(bar2, calc(bar2), `bar2-${shelter._id}`)}
+ ${(shelter.inv && bar1 in shelter.inv && bar1 in shelter.max)
+  ? getFakeInventoryBar(bar1, calc(bar1), `bar1-${shelter._id}`)
+  : ''
+}
+${(shelter.inv && bar2 in shelter.inv && bar2 in shelter.max)
+  ? getFakeInventoryBar(bar2, calc(bar2), `bar2-${shelter._id}`)
+  : ''
+}
+
 
   <a href="${basePath === '/' ? '' : basePath}/shelter/${shelter._id}"
      style="
@@ -300,7 +307,7 @@ const MapComponent = (props: MapComponentProps) => {
         layout: {
           'icon-image': ['get', 'icon'],
           'icon-allow-overlap': true,
-          'icon-size': 3,
+          'icon-size': 2.2,
         },
       });
 

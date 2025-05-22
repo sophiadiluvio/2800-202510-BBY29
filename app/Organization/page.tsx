@@ -55,7 +55,7 @@ export default function OrganizationStatusPage() {
   if (!inventory || !maxValues) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white text-black">
-        <Spinner color="border-green-600" />
+        <Spinner color="border-blue-600" />
       </div>
     );
   }
