@@ -33,7 +33,7 @@ export default function ItemTextBox({ id, initialStock, onUpdate }: ItemTextBoxP
         onChange={(e) => setStockInput(parseInt(e.target.value))}
       />
       <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" onClick={handleUpdate}>
-        Set
+        Save
       </button>
     </div>
   );

@@ -41,7 +41,7 @@ export default function Footer() {
         <Home size={30} />
       </button>
 
-      <Link href="/Organization/resources">
+      <Link href="/Organization/update">
         <div className="flex flex-col items-center">
           <PlusCircle size={30} />
         </div>
