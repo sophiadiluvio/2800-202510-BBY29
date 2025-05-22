@@ -24,6 +24,7 @@ export default function CurrentStatusPage() {
         <ItemForm addedItem={handleRefresh} />
         <ItemsList key={refresh} />
       </div>
+      <div className="mt-10 space-y-3"></div>
 
       <Footer />
     </main>
