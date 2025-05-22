@@ -15,15 +15,16 @@ export default function CreateShelterPage() {
   const [type, setType] = useState('food');
   const [lat, setLat] = useState('');
   const [lon, setLon] = useState('');
+  const [website, setWebsite] = useState('');
   const geocoderRef = useRef<any>(null);
 
   useEffect(() => {
     if (!geocoderRef.current) {
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken!,
-      placeholder: 'Search for shelter address',
-      mapboxgl: mapboxgl as unknown as typeof import('mapbox-gl'),
-    });
+      const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken!,
+        placeholder: 'Search for shelter address',
+        mapboxgl: mapboxgl as unknown as typeof import('mapbox-gl'),
+      });
 
       geocoder.addTo('#geocoder-container');
 
@@ -65,6 +66,15 @@ export default function CreateShelterPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+          />
+
+          <input
+            name="website"
+            type="url"
+            placeholder="Website / Volunteer postings (optional)"
+            className="bg-gray-200 text-center py-2 px-4 w-64 rounded"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
           />
 
           <div id="geocoder-container" className="w-64" />

@@ -11,6 +11,7 @@ export async function createShelter(formData) {
   const role = formData.get('type');
   const lat = parseFloat(formData.get('lat'));
   const lon = parseFloat(formData.get('lon'));
+  const website = formData.get('website');
 
   console.log("CreateShelter input:");
   console.log("Name:", name);
@@ -31,6 +32,7 @@ export async function createShelter(formData) {
     role,
     lat,
     lon,
+    website,
     admin_id: user._id
   });
 

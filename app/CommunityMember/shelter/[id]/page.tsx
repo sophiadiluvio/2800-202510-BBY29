@@ -29,10 +29,20 @@ export default function ShelterPage() {
       <Header />
 
       <main className="flex-1 p-4">
-        <div className="mb-6">
+        <div className="mb-3">
           <h1 className="text-2xl font-bold">{shelter.name}</h1>
           <p className="text-gray-700">{shelter.address}</p>
           <p className='text-gray-700'>{shelter.email}</p>
+           {shelter.website && (
+            <a
+              href={shelter.website.startsWith('http') ? shelter.website : `https://${shelter.website}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+            >
+              Visit Website
+            </a>
+          )}
         </div>
 
         <InventoryGrid shelter={shelter} />

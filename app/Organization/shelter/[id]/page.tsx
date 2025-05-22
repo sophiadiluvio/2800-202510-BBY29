@@ -57,32 +57,22 @@ export default function ShelterPage() {
     <div className="min-h-screen flex flex-col bg-white text-black">
       <Header />
       <main className="flex-1 p-4">
-        <div className="mb-6">
+        <div className="mb-3">
           <div className="flex items-center space-x-2">
             <h1 className="text-2xl font-bold">{shelter.name}</h1>
-            {userId && (
-              <form
-                action={isFavorited ? removeFavourite : addFavourite}
-                onSubmit={() => {
-                  setIsFavorited(!isFavorited); // optimistic UI update
-                  setTimeout(() => router.refresh(), 100);
-                }}
-
-              >
-                <input type="hidden" name="shelterId" value={id} />
-                <button type="submit" aria-label="Toggle Favorite">
-                  {isFavorited ? (
-                    <FaHeart className="text-red-500 text-xl" />
-                  ) : (
-                    <FaRegHeart className="text-gray-500 text-xl" />
-                  )}
-                </button>
-              </form>
-            )}
           </div>
-
           <p className="text-gray-700">{shelter.address}</p>
           <p className='text-gray-700'>{shelter.email}</p>
+           {shelter.website && (
+            <a
+              href={shelter.website.startsWith('http') ? shelter.website : `https://${shelter.website}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+            >
+              Visit Website
+            </a>
+          )}
         </div>
 
         <InventoryGrid shelter={shelter} />

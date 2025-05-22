@@ -8,7 +8,7 @@ import { editUser, editShelter } from '../../actions/editProfile';
 
 export default function OrganizationProfilePage() {
   const [userData, setUserData] = useState({ name: '', email: '' });
-  const [shelterData, setShelterData] = useState({ name: '', address: '', role: '' });
+  const [shelterData, setShelterData] = useState({ name: '', address: '', role: '', website: '' });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [userEditing, setUserEditing] = useState(false);
@@ -42,6 +42,7 @@ export default function OrganizationProfilePage() {
           name: userShelter?.name || '',
           address: userShelter?.address || '',
           role: userShelter?.role || '',
+          website: userShelter?.website || ''
         });
         setError('');
       } catch (err) {
@@ -137,6 +138,18 @@ export default function OrganizationProfilePage() {
                 value={userData.email}
                 disabled={!userEditing}
                 onChange={e => setUserData(u => ({ ...u, email: e.target.value }))}
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm text-gray-600 mb-1">Website</label>
+              <input
+                name="website"
+                type="url"
+                placeholder="Shelter Website / Volunteer postings (optional)"
+                className="w-full bg-gray-200 py-2 px-4 rounded"
+                value={shelterData.website}
+                disabled={!shelterEditing}
+                onChange={e => setShelterData(s => ({ ...s, website: e.target.value }))}
               />
             </div>
             <div className="flex justify-center space-x-4 mt-4">
