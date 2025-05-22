@@ -23,13 +23,13 @@ export default function OrganizationPage() {
       <Header />
 
       {/*Map*/}
-      <div className="absolute top-16 bottom-44 left-0 right-0 z-0">
+      <div className="absolute top-18 bottom-32 left-0 right-0 z-0">
             <MapComponent selectedShelter={selectedShelter} spinnerColor="border-blue-600"/>
       </div>
 
       {/*Expandable Search Panel*/}
       <div
-        className={`absolute left-0 right-0 bottom-28 bg-purple-100 transition-all duration-300 ease-in-out ${
+        className={`absolute left-0 right-0 bottom-28 bg-gradient-to-t from-white via-white/100 to-white/90 transition-all duration-300 ease-in-out ${
           expanded ? 'h-[40vh]' : 'h-[72px]'
         } overflow-hidden rounded-t-xl shadow-md z-10`}
       >

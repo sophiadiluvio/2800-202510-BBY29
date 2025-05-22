@@ -28,7 +28,7 @@ export default function CommunityMemberPage() {
 
       {/*Expandable Search Panel*/}
       <div
-        className={`absolute left-0 right-0 bottom-28 bg-purple-100 transition-all duration-300 ease-in-out ${
+        className={`absolute left-0 right-0 bottom-28 bg-gradient-to-t from-white via-white/100 to-white/90 transition-all duration-300 ease-in-out ${
           expanded ? 'h-[40vh]' : 'h-[72px]'
         } overflow-hidden rounded-t-xl shadow-md z-10`}
         
