@@ -57,7 +57,7 @@ export default function ShelterPage() {
     <div className="min-h-screen flex flex-col bg-white text-black">
       <Header />
       <main className="flex-1 p-4">
-        <div className="mb-3">
+        <div className="mb-0">
           <div className="flex items-center space-x-2">
             <h1 className="text-2xl font-bold">{shelter.name}</h1>
           </div>
@@ -68,7 +68,7 @@ export default function ShelterPage() {
               href={shelter.website.startsWith('http') ? shelter.website : `https://${shelter.website}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+              className="inline-block mt-0 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
             >
               Visit Website
             </a>
