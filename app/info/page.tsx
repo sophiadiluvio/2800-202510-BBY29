@@ -1,9 +1,17 @@
 import Image from 'next/image';
+import Header from '../components/navbar/noAccount/homepageHeader';
+import Footer from '../components/navbar/noAccount/footer';
 
 export default function InfoPage() {
   return (
+
+    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+  <Header />
+    
     <main className="max-w-4xl mx-auto px-6 py-12 bg-gray-50 text-gray-800">
+        
     <section className="mb-12 text-center">
+      
         <div className="mx-auto mb-6 w-40">
             <Image
             src="/logo_transparent.png"
@@ -50,8 +58,14 @@ export default function InfoPage() {
       </section>
 
       <footer className="mt-12 text-center text-gray-500 text-sm">
+
         &copy; 2025 ShelterLink. Empowering communities through clarity and connection.
       </footer>
+      <div className="mt-6 space-y-3"></div>
+      <Footer />
     </main>
+
+    </div>
+
   );
 }
