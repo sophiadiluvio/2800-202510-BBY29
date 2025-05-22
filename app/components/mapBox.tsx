@@ -187,7 +187,7 @@ const MapComponent = (props: MapComponentProps) => {
           bar2 = 'Non-perishable food';
           break;
         case 'overnight':
-          bar1 = 'Available beds';
+          bar1 = 'Beds available';
           bar2 = 'Bedding & linens';
           break;
         case 'women':
