@@ -1,21 +1,19 @@
 'use client';
+import { updateInvItem } from '@/app/actions/ItemActions';
 
-import { plusItem } from "../actions/ItemActions";
-
-interface prop {
-  id?: string;
-  newValue?: number;
+interface ItemPlusButtonProps {
+  itemKey: string;
+  newValue: number;
   onUpdate: () => void;
 }
 
-export default function ItemPlusButton({ id, newValue, onUpdate }: prop) {
+export default function ItemPlusButton({ itemKey, newValue, onUpdate }: ItemPlusButtonProps) {
   return (
     <button
-      type="button"
-      className="text-red-600 hover:text-red-800 transition-colors"
+      type='button'
+      className='text-green-600 hover:text-green-800 transition-colors'
       onClick={async () => {
-        if (!id) return;
-        await plusItem(id, newValue);
+        await updateInvItem(itemKey, newValue);
         onUpdate();
       }}
     >

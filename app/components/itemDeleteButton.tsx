@@ -1,20 +1,18 @@
 'use client';
+import { deleteInvItem } from '@/app/actions/ItemActions';
 
-import { deleteItem } from "../actions/ItemActions";
-
-interface prop {
-  id?: string;
+interface ItemDeleteButtonProps {
+  itemKey: string;
   onDelete: () => void;
 }
 
-export default function ItemDeleteButton({ id, onDelete }: prop) {
+export default function ItemDeleteButton({ itemKey, onDelete }: ItemDeleteButtonProps) {
   return (
     <button
-      type="button"
-      className="text-red-600 hover:text-red-800 transition-colors"
+      type='button'
+      className='text-gray-500 hover:text-gray-700 transition-colors'
       onClick={async () => {
-        if (!id) return;
-        await deleteItem(id);
+        await deleteInvItem(itemKey);
         onDelete();
       }}
     >

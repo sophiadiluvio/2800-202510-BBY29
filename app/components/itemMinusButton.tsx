@@ -1,21 +1,19 @@
 'use client';
+import { updateInvItem } from '@/app/actions/ItemActions';
 
-import { plusItem } from "../actions/ItemActions";
-
-interface Prop {
-  id?: string;
-  newValue?: number;
+interface ItemMinusButtonProps {
+  itemKey: string;
+  newValue: number;
   onUpdate: () => void;
 }
 
-export default function ItemMinusButton({ id, newValue, onUpdate }: Prop) {
+export default function ItemMinusButton({ itemKey, newValue, onUpdate }: ItemMinusButtonProps) {
   return (
     <button
-      type="button"
-      className="text-blue-600 hover:text-blue-800 transition-colors"
+      type='button'
+      className='text-red-600 hover:text-red-800 transition-colors'
       onClick={async () => {
-        if (!id) return;
-        await plusItem(id, newValue); // Assuming plusItem handles both increment/decrement
+        await updateInvItem(itemKey, newValue);
         onUpdate();
       }}
     >
@@ -23,3 +21,4 @@ export default function ItemMinusButton({ id, newValue, onUpdate }: Prop) {
     </button>
   );
 }
+
