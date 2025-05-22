@@ -71,7 +71,7 @@ const ShelterSearch = ({ onSelect, onSearchConfirm }: Props) => {
           onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSearch();
           }}}
           className="bg-transparent flex-1 focus:outline-none text-gray-700 placeholder-gray-500"/>
-        <span className="text-lg ml-2 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleConfirmSearch(); }}> 🔍 </span>
+        <span className="text-lg ml-2 cursor-pointer" onClick={(e) => { e.stopPropagation(); handleConfirmSearch(); }}></span>
       </div>
 
       {isListVisible && ( 
