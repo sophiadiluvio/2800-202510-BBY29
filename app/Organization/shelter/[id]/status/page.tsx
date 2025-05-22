@@ -2,11 +2,10 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Header from '../../components/navbar/organization/header';
-import Footer from '../../components/navbar/organization/footer';
-import Spinner from '../../components/spinner';
+import Header from '../../../../components/navbar/organization/header';
+import Footer from '../../../../components/navbar/organization/footer';
+import Spinner from '../../../../components/spinner';
 
-// Define a type for the resource data
 type ResourceStatus = {
   [key: string]: number;
 };
@@ -17,16 +16,34 @@ export default function OrganizationStatusPage() {
 
   const [resourceStatus, setResourceStatus] = useState<ResourceStatus | null>(null);
   const [animateBars, setAnimateBars] = useState(false);
+  const [error, setError] = useState<string | null>(null); // NEW
 
-  // Fetch shelter data
   useEffect(() => {
+    if (!id) return; 
+
     fetch(`/api/shelter/${id}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
       .then(data => {
-        setResourceStatus(data.resources);
+        if (!data.inv) throw new Error('Missing inv in API response');
+        setResourceStatus(data.inv);
         setTimeout(() => setAnimateBars(true), 100);
+      })
+      .catch(err => {
+        console.error('Error fetching shelter:', err);
+        setError('Failed to load shelter data.');
       });
   }, [id]);
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white text-black">
+        <p className="text-red-600 text-center">{error}</p>
+      </div>
+    );
+  }
 
   if (!resourceStatus) {
     return (
@@ -44,7 +61,6 @@ export default function OrganizationStatusPage() {
         <h1 className="text-xl font-bold ml-4">Current Status</h1>
       </Header>
 
-      {/* Resource Bars */}
       <div className="grid grid-cols-2 gap-4 px-6 mt-6">
         {Object.entries(resourceStatus).map(([label, amount]) => {
           const percentage = Math.min(amount / max, 1);
@@ -82,7 +98,6 @@ export default function OrganizationStatusPage() {
         })}
       </div>
 
-      {/* Action Buttons */}
       <div className="mt-6 px-6 space-y-3">
         <button
           className="bg-gray-300 w-full py-2 rounded"

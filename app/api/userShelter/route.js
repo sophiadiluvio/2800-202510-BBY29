@@ -1,5 +1,3 @@
-//app/api/userShelter
-
 import { getUserShelter } from "@/lib/getUserShelter";
 
 export async function GET() {
