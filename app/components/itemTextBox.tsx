@@ -1,14 +1,16 @@
 'use client';
 import { useState } from 'react';
 import { updateInvItem } from '@/app/actions/ItemActions';
+import { updateMaxItem } from '@/app/actions/ItemActions';
 
 interface ItemTextBoxProps {
   itemKey: string;
   initialValue: number;
+  type?: 'inv' | 'max';
   onUpdate: () => void;
 }
 
-export default function ItemTextBox({ itemKey, initialValue, onUpdate }: ItemTextBoxProps) {
+export default function ItemTextBox({ itemKey, initialValue, onUpdate, type = 'inv' }: ItemTextBoxProps) {
   const [stockInput, setStockInput] = useState(initialValue.toString());
 
   const handleUpdate = async () => {
@@ -18,7 +20,12 @@ export default function ItemTextBox({ itemKey, initialValue, onUpdate }: ItemTex
       return;
     }
     
-    await updateInvItem(itemKey, parsed);
+    if (type === 'max') {
+  await updateMaxItem(itemKey, parsed);
+} else {
+  await updateInvItem(itemKey, parsed);
+}
+
     onUpdate();
   };
 

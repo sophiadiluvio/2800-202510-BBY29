@@ -5,6 +5,7 @@ import ItemCard from './ItemCard';
 interface Item {
   key: string;
   value: number;
+  max: number;
 }
 
 export default function ItemsList() {
@@ -19,7 +20,11 @@ export default function ItemsList() {
         const data = await res.json();
         const shelter = data.userShelter;
         if (shelter?.inv) {
-          const invItems = Object.entries(shelter.inv).map(([key, value]) => ({ key, value: value as number }));
+          const invItems = Object.entries(shelter.inv).map(([key, value]) => {
+            const maxValue = shelter.max?.[key] ?? 0;
+            return { key, value: value as number, max: maxValue };
+          });
+
           setItems(invItems);
         }
       } catch (e) {
@@ -40,7 +45,7 @@ export default function ItemsList() {
       ) : (
         <ul className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {items.map(item => (
-            <ItemCard key={item.key} itemKey={item.key} value={item.value} onRefresh={() => setRefreshKey(prev => prev + 1)} />
+           <ItemCard key={item.key} itemKey={item.key} value={item.value} max={item.max} onRefresh={() => setRefreshKey(prev => prev + 1)} />
           ))}
         </ul>
       )}
