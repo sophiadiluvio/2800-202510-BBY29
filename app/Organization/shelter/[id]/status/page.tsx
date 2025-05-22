@@ -101,13 +101,13 @@ export default function OrganizationStatusPage() {
       <div className="mt-6 px-6 space-y-3">
         <button
           className="bg-gray-300 w-full py-2 rounded"
-          onClick={() => router.push(`/Organization/update/${id}`)}
+          onClick={() => router.push(`/organization/update/${id}`)}
         >
           Item Update
         </button>
         <button
           className="bg-gray-300 w-full py-2 rounded"
-          onClick={() => router.push(`/Organization/resources/${id}`)}
+          onClick={() => router.push(`/organization/resources/${id}`)}
         >
           Resource Request
         </button>
