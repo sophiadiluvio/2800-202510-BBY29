@@ -66,30 +66,45 @@ export default function InventoryInitializationPage() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const formData = new FormData();
+  // 1️⃣ If there are no categories selected at all:
+  if (Object.keys(inventoryList).length === 0) {
+    setMessage("Please choose a category and add in the current quantity");
+    return;
+  }
 
-    for (const [category, values] of Object.entries(inventoryList)) {
-      const current = parseInt(values.current);
-      const max = parseInt(values.max);
-      formData.append(`inv[${category}]`, current.toString());
-      formData.append(`max[${category}]`, max.toString());
-
-      if (!CATEGORIES_WITHOUT_REQUEST.includes(category)) {
-        const requested = values.requested ? parseInt(values.requested) : (max - current);
-        formData.append(`req[${category}]`, requested.toString());
-      }
+  // 2️⃣ If any category has an empty “current” input
+  for (const [category, values] of Object.entries(inventoryList)) {
+    if (!values.current) {
+      setMessage("Please choose a category and add in the current quantity");
+      return;
     }
+  }
 
-    try {
-      await setInitialInventory(formData);
-      setMessage('✅ Inventory successfully saved!');
-      router.push('/Organization');
-    } catch (err) {
-      setMessage('❌ Something went wrong. Please try again.');
+  // … all good, build your FormData and call the API …
+  const formData = new FormData();
+  for (const [category, values] of Object.entries(inventoryList)) {
+    const current = parseInt(values.current, 10);
+    const max     = parseInt(values.max,     10);
+    formData.append(`inv[${category}]`, current.toString());
+    formData.append(`max[${category}]`, max.toString());
+    if (!CATEGORIES_WITHOUT_REQUEST.includes(category)) {
+      const requested = values.requested
+        ? parseInt(values.requested, 10)
+        : max - current;
+      formData.append(`req[${category}]`, requested.toString());
     }
-  };
+  }
+
+  try {
+    await setInitialInventory(formData);
+    setMessage("✅ Inventory successfully saved!");
+    router.push("/Organization");
+  } catch {
+    setMessage("❌ Something went wrong. Please try again.");
+  }
+};
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">

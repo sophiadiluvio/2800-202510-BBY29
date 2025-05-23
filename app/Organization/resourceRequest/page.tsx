@@ -3,7 +3,7 @@
 
 import { FormEvent, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import Spinner from '../../components/spinner';
 import Header from "../../components/navbar/organization/header";
 import Footer from "../../components/navbar/organization/footer";
 
@@ -101,9 +101,9 @@ export default function ResourceRequestPage() {
   // ─── RENDER ────────────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p>Loading needs…</p>
-      </main>
+       <div className="min-h-screen flex items-center justify-center bg-white text-black">
+                    <Spinner color="border-blue-600" />
+                  </div>
     );
   }
 
