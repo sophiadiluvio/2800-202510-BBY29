@@ -41,7 +41,24 @@ export async function middleware(request) {
                     )
                 }
 
-                if (path === '/Organization/createShelter') {
+                const shelterRes = await fetch(new URL('/api/userShelter', request.url), {
+                    headers: { cookie: request.headers.get('cookie') },
+                })
+                const { userShelter } = await shelterRes.json();
+                const inv = userShelter.inv;
+                console.log(inv);
+
+
+                if (!inv) {
+                    if (path === '/Organization/createShelter/inventoryInitialization') {
+                        return NextResponse.next()
+                    }
+                    return NextResponse.redirect(
+                        new URL('/Organization/createShelter/inventoryInitialization', request.url)
+                    )
+                }
+
+                if (path.startsWith('/Organization/createShelter')) {
                     return NextResponse.redirect(
                         new URL('/Organization/profile', request.url)
                     )
