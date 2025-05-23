@@ -56,6 +56,7 @@ export default function DonationPage() {
 
   const handleConfirm = () => setShowPopup(true);
 
+  //popup for time selection
   const handleWindowSelect = (window: number[]) => {
     setSelectedWindow(window);
 

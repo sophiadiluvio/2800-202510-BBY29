@@ -1,3 +1,4 @@
+//profile page to view and edit user stats and upcoming donations.
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -23,7 +24,7 @@ export default function OrganizationProfilePage() {
   const [shelterNames, setShelterNames] = useState<Record<string, string>>({});
 
 
-
+  //Load user profile
   useEffect(() => {
     async function fetchProfile() {
       try {
@@ -33,6 +34,7 @@ export default function OrganizationProfilePage() {
         const { user } = await res.json();
         setUserData({ name: user?.name || '', email: user?.email || '' });
 
+        //clean the donation data
         if (user?.accepted && typeof user.accepted === 'object') {
           const formatted = Object.entries(user.accepted).map(([shelterId, details]) => {
             const data = details as {
@@ -50,6 +52,7 @@ export default function OrganizationProfilePage() {
           });
 
           setPendingDonations(formatted);
+          //double check shelter names
           formatted.forEach(donation => {
             if (!shelterNames[donation.shelterId]) {
               fetchShelterName(donation.shelterId);
@@ -74,6 +77,7 @@ export default function OrganizationProfilePage() {
     fetchProfile();
   }, [refresh]);
 
+  //fetch the shelter name
   async function fetchShelterName(id: string) {
     try {
       const res = await fetch(`/api/shelter/${id}`);
@@ -99,21 +103,6 @@ export default function OrganizationProfilePage() {
     } catch (err: any) {
       console.error(err);
       alert(`❌ ${err.message || 'Failed to save user.'}`);
-    }
-  };
-
-  const handleShelterSave = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = new FormData(e.currentTarget);
-
-    try {
-      await editShelter(form);
-      setShelterEditing(false);
-      setRefresh(r => !r);
-      alert('✅ Shelter information saved!');
-    } catch (err: any) {
-      console.error(err);
-      alert(`❌ ${err.message || 'Failed to save shelter.'}`);
     }
   };
 

@@ -1,8 +1,11 @@
+// map component used on most of the home pages, takes in a location for flyto and a colour for its loading spinner
+
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { usePathname } from 'next/navigation';
+//no types so we ignore TypeScript warning
 //@ts-ignore
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css';
@@ -25,6 +28,7 @@ const MapComponent = (props: MapComponentProps) => {
   const directionsRef = useRef<any>(null);
   const [loading, setLoading] = useState<boolean>(() => true);
 
+  //fly to the selected location from the search bar
   useEffect(() => {
     if (selectedShelter == null) {
       return;
@@ -42,6 +46,7 @@ const MapComponent = (props: MapComponentProps) => {
     });
   }, [selectedShelter]);
 
+  //fetch all the shelter on load
   useEffect(() => {
     fetch('/api/shelter')
       .then((res) => res.json())
@@ -51,6 +56,7 @@ const MapComponent = (props: MapComponentProps) => {
 
   const pathname = usePathname();
 
+  //some pages are under /map and some are the base page and so the routing needs to be updated
   let basePath = pathname;
   if (basePath.endsWith('/map')) {
     basePath = basePath.replace('/map', '');
@@ -59,12 +65,13 @@ const MapComponent = (props: MapComponentProps) => {
     basePath = '/';
   }
 
-
+  //map logic
   useEffect(() => {
     if (!shelters.length) return;
 
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
+    //create the map
     const map = new mapboxgl.Map({
       container: mapContainerRef.current!,
       style: 'mapbox://styles/mapbox/streets-v12',
@@ -73,6 +80,7 @@ const MapComponent = (props: MapComponentProps) => {
       attributionControl: false,
     });
 
+    //implement the directions plugin from mapbox
     const directions = new MapboxDirections({
       accessToken: mapboxgl.accessToken!,
       unit: 'metric',
@@ -87,6 +95,7 @@ const MapComponent = (props: MapComponentProps) => {
     directionsRef.current = directions;
     map.addControl(directions, 'top-left');
 
+    //formatting and setup for directions box
     directionsRef.current.on('route', function () {
       const instructions = document.querySelector('.mapbox-directions-instructions');
       const existingBar = document.getElementById('directions-mode-bar');
@@ -123,6 +132,7 @@ const MapComponent = (props: MapComponentProps) => {
 
     mapRef.current = map;
 
+    //select the correct icon to display on the map from the role of the shelter 
     const getIconByRole = (role: Shelter['role']) => {
       switch (role) {
         case 'food':
@@ -138,6 +148,7 @@ const MapComponent = (props: MapComponentProps) => {
       }
     };
 
+    //generate the inv bar on the popup, "fake" since its a replica of our bar component
     const getFakeInventoryBar = (label: string, percent: number, id: string) => {
       const clampedPercent = Math.max(0, Math.min(percent, 100));
       let color = '#f87171';
@@ -166,7 +177,7 @@ const MapComponent = (props: MapComponentProps) => {
   `;
     };
 
-
+    //build the popup that is displayed upon clicking a location on the map
     const getPopupHTMLByRole = (shelter: Shelter) => {
       const inv = shelter.inv;
       const max = shelter.max;
@@ -202,6 +213,7 @@ const MapComponent = (props: MapComponentProps) => {
           return `<div style="font-family: sans-serif; font-size: 14px;">Unknown shelter type</div>`;
       }
 
+      //the HTML for the popup
       return `
 <div style="
   width: 240px;
@@ -224,13 +236,13 @@ const MapComponent = (props: MapComponentProps) => {
   </style>
 
  ${(shelter.inv && bar1 in shelter.inv && bar1 in shelter.max)
-  ? getFakeInventoryBar(bar1, calc(bar1), `bar1-${shelter._id}`)
-  : ''
-}
+          ? getFakeInventoryBar(bar1, calc(bar1), `bar1-${shelter._id}`)
+          : ''
+        }
 ${(shelter.inv && bar2 in shelter.inv && bar2 in shelter.max)
-  ? getFakeInventoryBar(bar2, calc(bar2), `bar2-${shelter._id}`)
-  : ''
-}
+          ? getFakeInventoryBar(bar2, calc(bar2), `bar2-${shelter._id}`)
+          : ''
+        }
 
 
   <a href="${basePath === '/' ? '' : basePath}/shelter/${shelter._id}"
@@ -258,8 +270,11 @@ ${(shelter.inv && bar2 in shelter.inv && bar2 in shelter.max)
 `;
     };
 
+    //add pins once the map is loaded in
     map.on('load', () => {
       setLoading(false);
+
+      //turn the shelters location information to geoJSON for mapbox
       const features: Feature<Point>[] = shelters.map((shelter) => {
         return {
           type: 'Feature',
@@ -295,6 +310,7 @@ ${(shelter.inv && bar2 in shelter.inv && bar2 in shelter.max)
         features,
       };
 
+      //add the points to the map
       map.addSource('places', {
         type: 'geojson',
         data: geoJson,
@@ -311,6 +327,7 @@ ${(shelter.inv && bar2 in shelter.inv && bar2 in shelter.max)
         },
       });
 
+      //show popup and enable direction when a location is clicked
       map.on('click', 'places', (e) => {
         if (!e.features?.length) return;
         const feature = e.features[0];
@@ -359,18 +376,6 @@ ${(shelter.inv && bar2 in shelter.inv && bar2 in shelter.max)
       map.on('mouseleave', 'places', () => {
         map.getCanvas().style.cursor = '';
       });
-
-      // const geocoder = new MapboxGeocoder({
-      //   accessToken: mapboxgl.accessToken!,
-      //   mapboxgl: mapboxgl as any,
-      //   limit: 2,
-      //   placeholder: 'Search...',
-      // });
-
-      // const geoDiv = document.getElementById('geocoder');
-      // if (geoDiv) {
-      //   geoDiv.appendChild(geocoder.onAdd(map));
-      // }
     });
 
     return () => map.remove();
@@ -379,6 +384,7 @@ ${(shelter.inv && bar2 in shelter.inv && bar2 in shelter.max)
 
   let loadingOverlay = null;
 
+  //spinner while waiting for map to load
   if (loading) {
     loadingOverlay = (
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white z-50">

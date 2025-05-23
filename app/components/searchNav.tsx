@@ -1,7 +1,9 @@
+//naviagtion bat at the bottom of the map to select resources near you pages
+
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { FaHeart, FaTshirt, FaHome, FaFemale } from 'react-icons/fa';
+import { FaTshirt, FaHome, FaFemale } from 'react-icons/fa';
 import { GiCannedFish } from "react-icons/gi";
 type Props = {
   userLocation: { lat: number; lng: number } | null;
@@ -11,6 +13,7 @@ export default function SearchNav({ userLocation }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
+  //handle the clicks on the nav
   function handleClick(category: string) {
     if (!userLocation) {
       alert("User Location not available yet, please try again.");
@@ -19,6 +22,7 @@ export default function SearchNav({ userLocation }: Props) {
   
     const { lat, lng } = userLocation;
   
+    //build proper query string
     const params = new URLSearchParams();
     params.set('category', category);
     params.set('lat', lat.toString());
@@ -26,6 +30,7 @@ export default function SearchNav({ userLocation }: Props) {
   
     let basePath = pathname;
   
+    //clean up path
     if (pathname.endsWith('/map')) {
       basePath = pathname.replace('/map', '');
     }

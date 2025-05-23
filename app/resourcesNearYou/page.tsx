@@ -1,3 +1,4 @@
+//resources near you page with green headers for un logged in users
 'use client';
 
 import { Suspense } from 'react'

@@ -1,3 +1,4 @@
+//page that displays rescources near the user of a certian type
 'use client';
 
 import { Suspense } from 'react'
