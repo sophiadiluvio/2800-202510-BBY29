@@ -17,7 +17,7 @@ export default function CurrentStatusPage() {
   return (
     <main className="min-h-screen bg-white text-black flex flex-col">
       <Header>
-        <h1 className="text-xl font-bold ml-4">Update Status</h1>
+        <h1 className="text-xl font-bold ml-4">Update Items</h1>
       </Header>
 
       <div className="flex-1 p-6">

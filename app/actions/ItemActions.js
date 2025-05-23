@@ -22,8 +22,15 @@ export async function createInvItem(formData) {
 
 export async function updateInvItem(itemKey, newValue) {
   if (!itemKey || isNaN(newValue)) throw new Error('Invalid data');
+  
   const shelter = await getUserShelter();
   if (!shelter?._id) throw new Error('Shelter not found');
+
+  const currentMax = shelter?.max?.[itemKey];
+  if (typeof currentMax === 'number' && newValue > currentMax) {
+    throw new Error(`Cannot set inventory higher than max (${currentMax})`);
+  }
+
   const client = await clientPromise;
   await client.db('ShelterLink')
     .collection('Shelters')
@@ -32,6 +39,7 @@ export async function updateInvItem(itemKey, newValue) {
       { $set: { [`inv.${itemKey}`]: newValue } }
     );
 }
+
 
 export async function deleteInvItem(itemKey) {
   if (!itemKey) throw new Error('Invalid data');
@@ -63,8 +71,15 @@ export async function createMaxItem(formData) {
 
 export async function updateMaxItem(itemKey, newValue) {
   if (!itemKey || isNaN(newValue)) throw new Error('Invalid data');
+  
   const shelter = await getUserShelter();
   if (!shelter?._id) throw new Error('Shelter not found');
+
+  const currentInv = shelter?.inv?.[itemKey];
+  if (typeof currentInv === 'number' && newValue < currentInv) {
+    throw new Error(`Cannot set max lower than current inventory (${currentInv})`);
+  }
+
   const client = await clientPromise;
   await client.db('ShelterLink')
     .collection('Shelters')
@@ -73,6 +88,7 @@ export async function updateMaxItem(itemKey, newValue) {
       { $set: { [`max.${itemKey}`]: newValue } }
     );
 }
+
 
 export async function setInitialInventory(formData) {
   const inv = parseNestedFields(formData, 'inv');

@@ -13,21 +13,26 @@ interface ItemTextBoxProps {
 export default function ItemTextBox({ itemKey, initialValue, onUpdate, type = 'inv' }: ItemTextBoxProps) {
   const [stockInput, setStockInput] = useState(initialValue.toString());
 
-  const handleUpdate = async () => {
-    const parsed = parseInt(stockInput, 10)
-    if (isNaN(parsed)|| parsed < 0) {
-      alert('Please enter a valid number.');
-      return;
-    }
-    
+const handleUpdate = async () => {
+  const parsed = parseInt(stockInput, 10);
+  if (isNaN(parsed) || parsed < 0) {
+    alert('Please enter a valid number.');
+    return;
+  }
+
+  try {
     if (type === 'max') {
-  await updateMaxItem(itemKey, parsed);
-} else {
-  await updateInvItem(itemKey, parsed);
-}
+      await updateMaxItem(itemKey, parsed);
+    } else {
+      await updateInvItem(itemKey, parsed);
+    }
 
     onUpdate();
-  };
+  } catch (err: any) {
+    alert(err.message || 'Update failed.');
+  }
+};
+
 
   return (
     <div className='mt-2 flex items-center space-x-2'>
