@@ -6,7 +6,7 @@ import Footer from '../../components/navbar/organization/footer';
 import LogoutButton from '../../components/logoutButton';
 import { editUser, editShelter } from '../../actions/editProfile';
 import { CgProfile } from "react-icons/cg";
-
+import Spinner from '../../components/spinner';
 
 export default function OrganizationProfilePage() {
   const [userData, setUserData] = useState({ name: '', email: '' });
@@ -91,9 +91,9 @@ export default function OrganizationProfilePage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-white text-black font-sans flex flex-col items-center justify-center">
-        <p>Loading...</p>
-      </main>
+       <div className="min-h-screen flex items-center justify-center bg-white text-black">
+              <Spinner color="border-blue-600" />
+            </div>
     );
   }
 
