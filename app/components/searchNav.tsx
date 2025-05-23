@@ -13,7 +13,7 @@ export default function SearchNav({ userLocation }: Props) {
 
   function handleClick(category: string) {
     if (!userLocation) {
-      alert("Location not available yet.");
+      alert("User Location not available yet, please try again.");
       return;
     }
   

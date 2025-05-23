@@ -1,7 +1,5 @@
 'use client';
 import ItemDeleteButton from './itemDeleteButton';
-import ItemPlusButton from './itemPlusButton';
-import ItemMinusButton from './itemMinusButton';
 import ItemTextBox from './itemTextBox';
 
 interface ItemCardProps {
@@ -32,14 +30,11 @@ export default function ItemCard({ itemKey, value, max, onRefresh }: ItemCardPro
       <div className='mb-2'>
         <label className='block text-sm font-medium text-gray-700 mb-1 text-center'>Update Quantity</label>
         <div className='flex justify-between items-center gap-2'>
-          <ItemMinusButton itemKey={itemKey} newValue={Math.max(0, value - 1)} onUpdate={onRefresh} />
           <div className='flex-1 flex justify-center'>
             <ItemTextBox itemKey={itemKey} initialValue={value} onUpdate={onRefresh} />
           </div>
-          <ItemPlusButton itemKey={itemKey} newValue={value + 1} onUpdate={onRefresh} />
         </div>
       </div>
-
       <div>
         <label className='block text-sm font-medium text-gray-700 mb-1 text-center'>Update Max</label>
         <div className='flex justify-center'>

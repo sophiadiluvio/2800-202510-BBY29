@@ -251,7 +251,7 @@ export default function OrganizationProfilePage() {
 
                   {expandedDonation === index && (
                     <div className="ml-2 mt-2 text-sm space-y-1">
-                      <p className="text-green-500 font-bold text-[17px]">
+                      <p className="text-green-500 font-bold text-base">
                         Supplies Sending:
                       </p>
                       {Object.entries(donation.items).map(([item, qty]) => (

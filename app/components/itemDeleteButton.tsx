@@ -1,6 +1,6 @@
 'use client';
 import { deleteInvItem } from '@/app/actions/ItemActions';
-
+import { IoCloseSharp } from "react-icons/io5";
 interface ItemDeleteButtonProps {
   itemKey: string;
   onDelete: () => void;
@@ -16,7 +16,7 @@ export default function ItemDeleteButton({ itemKey, onDelete }: ItemDeleteButton
         onDelete();
       }}
     >
-      🗑️
+      <IoCloseSharp size={30}/>
     </button>
   );
 }
