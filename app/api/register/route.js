@@ -5,11 +5,7 @@ import { SignJWT } from "jose";
 
 export async function POST(request) {
 
-    const form = await request.formData();
-    const name = form.get('name')?.toString() ?? '';
-    const email = form.get('email')?.toString() ?? '';
-    const password = form.get('password')?.toString() ?? '';
-    const role = form.get('role')?.toString() ?? '';
+    const { name, email, password, role } = await request.json();
 
     const client = await clientPromise;
 
