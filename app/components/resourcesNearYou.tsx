@@ -4,8 +4,9 @@ import { useSearchParams, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import FavouriteButton from '../components/favouriteButton';
+import Spinner from '../components/spinner';
 
-export default function ResourcesNearYouPage() {
+export default function ResourcesNearYouPage({color}: any) {
   const searchParams = useSearchParams();
   const category = searchParams.get('category');
   const lat = parseFloat(searchParams.get('lat') || '');
@@ -13,6 +14,7 @@ export default function ResourcesNearYouPage() {
 
   const [shelters, setShelters] = useState([]);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const pathname = usePathname();
   const basePath = pathname.split('/resourcesNearYou')[0];
@@ -28,7 +30,7 @@ export default function ResourcesNearYouPage() {
   useEffect(() => {
     async function fetchData() {
       try {
-
+        setLoading(true);
         const shelterRes = await fetch('/api/shelter');
         const shelterData = await shelterRes.json();
 
@@ -44,6 +46,7 @@ export default function ResourcesNearYouPage() {
               favourites = userData.user.favourites || [];
             }
           }
+          setLoading(false);
         } catch (err) {
           console.warn('Not logged in.');
         }
@@ -98,7 +101,7 @@ export default function ResourcesNearYouPage() {
       <main className="flex-1 p-4 pt-6 pb-20">
         <h1 className="text-2xl font-bold mb-4">{pageTitle}</h1>
 
-        {shelters.length === 0 ? (
+        {loading ? (<Spinner color={color} />) : shelters.length === 0 ? (
           <p className="text-gray-600">No shelters found for this category.</p>
         ) : (
           <ul className="space-y-4">
@@ -125,6 +128,7 @@ export default function ResourcesNearYouPage() {
             ))}
           </ul>
         )}
+
       </main>
     </div>
   );

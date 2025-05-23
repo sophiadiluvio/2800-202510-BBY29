@@ -13,7 +13,7 @@ export default function ResourcesNearYouPage() {
       <Header />
 
       <Suspense fallback={<Spinner color="border-yellow-600" />}>
-      <ResourcesNearYou />
+      <ResourcesNearYou color="border-yellow-600" />
       </Suspense>
       <Footer />
     </div>
