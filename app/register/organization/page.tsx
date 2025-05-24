@@ -31,13 +31,13 @@ export default function OrgRegisterPage() {
         body: JSON.stringify({ name: username, email, password, role }),
       });
 
-      const { error } = await res.json();
-
       if (res.redirected) {
           const url = new URL(res.url);
           router.push(url.pathname);
           return;
         }
+
+        const { error } = await res.json();
 
         setError(error);
     } catch {
