@@ -1,6 +1,6 @@
 //app/api/resourceRequest
 
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 import { getUserShelter } from "@/lib/getUserShelter";
 import clientPromise from "../db";
 
