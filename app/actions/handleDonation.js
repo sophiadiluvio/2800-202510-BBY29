@@ -9,16 +9,16 @@ import clientPromise from '@/app/api/db'
  * under the shelter owned by the currently logged-in organization user.
  */
 export async function rejectDonation(email) {
-  // 1️⃣ get the org user's shelter
+  // get the org user's shelter
   const shelter = await getUserShelter()
   if (!shelter) {
     throw new Error('Organization user has no shelter attached')
   }
 
-  // 2️⃣ string‑ify the shelter _id (keys in `accepted` are strings)
+  //string‑ify the shelter _id (keys in `accepted` are strings)
   const shelterId = shelter._id.toString()
 
-  // 3️⃣ connect to Mongo and $unset that accepted.<shelterId> field
+  //connect to Mongo and $unset that accepted.<shelterId> field
   const client = await clientPromise
   const usersCol = client.db('ShelterLink').collection('Users')
 
@@ -33,7 +33,7 @@ export async function rejectDonation(email) {
  * then remove the donation record from the user’s accepted field.
  */
 export async function receivedDonation(email) {
-  // 1️⃣ identify the org user’s shelter
+  //identify the org user’s shelter
   const shelter = await getUserShelter()
   if (!shelter) throw new Error('Organization user has no shelter attached')
 
@@ -42,7 +42,7 @@ export async function receivedDonation(email) {
   const db        = client.db('ShelterLink')
   const usersCol  = db.collection('Users')
 
-  // 2️⃣ fetch the pending donation details for that email
+  //fetch the pending donation details for that email
   const userDoc = await usersCol.findOne(
     { email },
     { projection: { [`accepted.${shelterId}.donation`]: 1 } }
@@ -52,7 +52,7 @@ export async function receivedDonation(email) {
   }
   const donation = userDoc.accepted[shelterId].donation
 
-  // 3️⃣ apply increments to shelter.inv and decrements to shelter.req
+  // apply increments to shelter.inv and decrements to shelter.req
   const shelterCol = db.collection('Shelters')
   const incOps = {}
   for (const [item, qty] of Object.entries(donation)) {
@@ -64,7 +64,7 @@ export async function receivedDonation(email) {
     { $inc: incOps }
   )
 
-  // 4️⃣ remove the accepted.<shelterId> from the donor’s record
+  //remove the accepted.<shelterId> from the donor’s record
   await usersCol.updateOne(
     { email },
     { $unset: { [`accepted.${shelterId}`]: '' } }
