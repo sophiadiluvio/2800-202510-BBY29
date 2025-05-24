@@ -7,7 +7,7 @@ export async function GET(req, { params }) {
   const shelterCollection = db.collection("Shelters");
   const userCollection = db.collection('Users');
 
-  const { id } = params
+  const { id } = params;
 
   const result = await shelterCollection.findOne({ _id: new ObjectId(id) });
   const admin = await userCollection.findOne({ _id: result.admin_id });

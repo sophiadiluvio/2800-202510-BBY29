@@ -40,10 +40,10 @@ export async function POST(request) {
             ? "/Organization/profile"
             : "/CommunityMember/profile";
 
-    const target = new URL(redirectPath, request.url)
+    const target = new URL(redirectPath, request.url);
 
     // 1) create the redirect response
-    const res = NextResponse.redirect(target, 303)
+    const res = NextResponse.redirect(target, 303);
 
     // 2) then set the cookie on that response
     res.cookies.set({
@@ -54,8 +54,8 @@ export async function POST(request) {
         sameSite: "lax",
         path: "/",
         maxAge: 60 * 60 * 24 * 7, // 7 days
-    })
+    });
 
     // 3) return it
-    return res
+    return res;
 }
