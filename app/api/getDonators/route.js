@@ -1,22 +1,22 @@
 // app/api/getDonators/route.js
-import { NextResponse } from 'next/server'
-import { getUserShelter } from '@/lib/getUserShelter'
-import clientPromise from '@/app/api/db'
+import { NextResponse } from 'next/server';
+import { getUserShelter } from '@/lib/getUserShelter';
+import clientPromise from '@/app/api/db';
 
 export async function GET() {
-  // 1️⃣ find the shelter attached to the currently‐logged‐in org user
-  const shelter = await getUserShelter()
+  //find the shelter attached to the currently‐logged‐in org user
+  const shelter = await getUserShelter();
   if (!shelter) {
     // if they somehow aren’t tied to a shelter, just return an empty list
-    return NextResponse.json([], { status: 200 })
+    return NextResponse.json([], { status: 200 });
   }
 
-  // 2️⃣ convert its ObjectId to string (that’s how keys live in `accepted`)
-  const shelterId = shelter._id.toString()
+  //convert its ObjectId to string (that’s how keys live in `accepted`)
+  const shelterId = shelter._id.toString();
 
-  // 3️⃣ grab all users who have an `accepted.<shelterId>` field
+  //grab all users who have an `accepted.<shelterId>` field
   const client = await clientPromise
-  const usersCollection = client.db('ShelterLink').collection('Users')
+  const usersCollection = client.db('ShelterLink').collection('Users');
   const donorsRaw = await usersCollection
     .find(
       { [`accepted.${shelterId}`]: { $exists: true } },
@@ -29,19 +29,19 @@ export async function GET() {
         }
       }
     )
-    .toArray()
+    .toArray();
 
-  // 4️⃣ reshape into exactly what the front end needs
+  //reshape into exactly what the front end needs
   const donors = donorsRaw.map(u => {
-    const info = u.accepted[shelterId]
+    const info = u.accepted[shelterId];
     return {
       name:     u.name,
       email:    u.email,
       donation: info.donation,  // { itemKey: number, … }
       opening:  info.opening,   // e.g. "2025-05-25"
       closing:  info.closing    // e.g. "2025-05-27"
-    }
-  })
+    };
+  });
 
-  return NextResponse.json(donors)
+  return NextResponse.json(donors);
 }

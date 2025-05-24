@@ -1,3 +1,4 @@
+//Page that displays all the info about a specific shelter
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -10,12 +11,15 @@ import { useParams } from 'next/navigation';
 export default function ShelterPage() {
   const [shelter, setShelter] = useState<any>(null);
     const {id} = useParams();
+
+    //fetch shelter data
   useEffect(() => {
    fetch(`/api/shelter/${id}`)
       .then((res) => res.json())
       .then((data) => setShelter(data));
   }, []);
 
+  //show spinner when loading
   if (shelter == null) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white text-black">
@@ -24,6 +28,7 @@ export default function ShelterPage() {
     );
   }
 
+  //formatted page
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
       <Header />

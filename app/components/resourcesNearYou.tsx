@@ -6,7 +6,7 @@ import Link from 'next/link';
 import FavouriteButton from '../components/favouriteButton';
 import Spinner from '../components/spinner';
 
-export default function ResourcesNearYouPage({color}: any) {
+export default function ResourcesNearYouPage({ color }: any) {
   const searchParams = useSearchParams();
   const category = searchParams.get('category');
   const lat = parseFloat(searchParams.get('lat') || '');
@@ -19,6 +19,7 @@ export default function ResourcesNearYouPage({color}: any) {
   const pathname = usePathname();
   const basePath = pathname.split('/resourcesNearYou')[0];
 
+  //set title depending on category
   let pageTitle = 'Nearby Resources';
   if (category === 'food') pageTitle = 'Food Support Near You';
   else if (category === 'overnight') pageTitle = 'Overnight Shelters Near You';
@@ -26,11 +27,12 @@ export default function ResourcesNearYouPage({color}: any) {
   else if (category === 'favorites') pageTitle = 'Favorite Locations';
   else if (category === 'women') pageTitle = 'Women\'s Shelters near you';
 
-
+  //fetch shelters and sort them
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
+        //get all the shelter
         const shelterRes = await fetch('/api/shelter');
         const shelterData = await shelterRes.json();
 
@@ -38,6 +40,7 @@ export default function ResourcesNearYouPage({color}: any) {
         let favourites = [];
 
         try {
+          //get the user account info
           const userRes = await fetch('/api/account', { cache: 'no-store' });
           if (userRes.ok) {
             const userData = await userRes.json();
@@ -53,9 +56,10 @@ export default function ResourcesNearYouPage({color}: any) {
 
         setUserRole(role);
 
+       //only community members are allowed to have favourites
         if (category === 'favorites') {
           if (role !== 'community_member') {
-            setShelters([]); 
+            setShelters([]);
             return;
           }
 
@@ -84,6 +88,7 @@ export default function ResourcesNearYouPage({color}: any) {
     fetchData();
   }, [category, lat, lng]);
 
+  // use haversine alg to calculate distance in km
   function getDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;

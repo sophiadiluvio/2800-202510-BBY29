@@ -1,3 +1,4 @@
+//spinner used to signify loading, takes in a colour so it can be used on all pages
 type SpinnerProps = {
     color?: string;
   };

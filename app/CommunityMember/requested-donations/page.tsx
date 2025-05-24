@@ -8,7 +8,7 @@ import Footer from '../../components/navbar/communityMember/footer';
 interface Shelter {
   _id: string;
   name: string;
-  req?: Record<string, number>;
+  req?: Record<string, number>; // the requested items
 }
 
 export default function DonationsNeededPage() {
@@ -16,6 +16,7 @@ export default function DonationsNeededPage() {
   const [expandedShelter, setExpandedShelter] = useState<string | null>(null);
   const router = useRouter();
 
+  //load the shelter
   useEffect(() => {
     fetch("/api/shelter")
       .then(res => res.json())
@@ -34,6 +35,7 @@ export default function DonationsNeededPage() {
       .catch(err => console.error("Failed to load shelters:", err));
   }, []);
 
+  //colapse or expand shelters info
   const toggleShelter = (name: string) => {
     setExpandedShelter(prev => (prev === name ? null : name));
   };

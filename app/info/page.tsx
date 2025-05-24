@@ -1,3 +1,5 @@
+// info page for new users, linked to a question mark button in the header
+
 import Image from 'next/image';
 import Header from '../components/navbar/noAccount/homepageHeader';
 import Footer from '../components/navbar/noAccount/footer';

@@ -10,21 +10,57 @@ export default function MemberRegisterPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const role = 'community_member';
+
+  // email format regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // form validity: nonempty username, valid email format, password >= 6 chars
+  const isFormValid = username.trim() !== '' && emailRegex.test(email) && password.length >= 6;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (!isFormValid) return;
+
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ name: username, email, password, role }),
+      });
+
+      const { error } = await res.json();
+
+      if (res.redirected) {
+          const url = new URL(res.url);
+          router.push(url.pathname);
+          return;
+        }
+
+        setError(error);
+    } catch {
+      setError('Network error. Please try again.');
+    }
+  };
 
   return (
     <main className="min-h-screen bg-white text-black font-sans flex flex-col">
-     
-     <Header>
-          <h1 className="text-xl font-bold">ShelterLink</h1>
+      <Header>
+        <h1 className="text-xl font-bold">ShelterLink</h1>
       </Header>
 
-      {/* Content */}
       <div className="flex flex-col items-center justify-center flex-grow space-y-4 mt-10 text-center">
         <h2 className="text-lg font-semibold text-yellow-500">Member Registration</h2>
 
-        <form action='/api/register' method='POST' className="flex flex-col gap-4">
-          {/* hidden field so FormData.get('role') === 'organizer' */}
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded" role="alert">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
           <input type="hidden" name="role" value={role} />
 
           <input
@@ -34,6 +70,7 @@ export default function MemberRegisterPage() {
             className="bg-gray-200 text-center py-2 px-4 w-64 rounded"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
 
           <input
@@ -43,20 +80,26 @@ export default function MemberRegisterPage() {
             className="bg-gray-200 text-center py-2 px-4 w-64 rounded"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+            pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+            title="Please enter a valid email address"
           />
 
           <input
             name="password"
             type="password"
-            placeholder="Password"
+            placeholder="Password (min 6 chars)"
             className="bg-gray-200 text-center py-2 px-4 w-64 rounded"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
           />
 
           <button
             type="submit"
-            className="bg-gray-200 py-2 px-8 rounded"
+            className={`bg-gray-200 py-2 px-8 rounded ${!isFormValid ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={!isFormValid}
           >
             Sign up
           </button>
@@ -65,5 +108,5 @@ export default function MemberRegisterPage() {
 
       <Footer />
     </main>
-  );
-}
+  )
+};

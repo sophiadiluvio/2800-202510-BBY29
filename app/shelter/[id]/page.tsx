@@ -1,4 +1,4 @@
-
+//shelter info page for the un loggedin user showing inv and other info
 'use client';
 
 import { useEffect, useState } from 'react';

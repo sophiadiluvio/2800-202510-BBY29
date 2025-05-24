@@ -1,19 +1,13 @@
+//shelter info page for the organization
 'use client';
-import { addFavourite, removeFavourite } from '../../../actions/favourites';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Header from '../../../components/navbar/organization/header';
 import Footer from '../../../components/navbar/organization/footer';
 import InventoryGrid from '../../../components/inventoryGrid';
 import Spinner from '../../../components/spinner';
-import { useRouter } from 'next/navigation';
-import { ParamValue } from 'next/dist/server/request/params';
 
 export default function ShelterPage() {
-  const router = useRouter();
-  const [isFavorited, setIsFavorited] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
   const [shelter, setShelter] = useState<any>(null);
   const { id } = useParams();
 
@@ -22,28 +16,6 @@ export default function ShelterPage() {
       .then((res) => res.json())
       .then((data) => setShelter(data));
   }, []);
-
-  useEffect(() => {
-    async function checkFavouriteStatus() {
-      try {
-        const res = await fetch('/api/account');
-        if (!res.ok) return;
-
-        const data = await res.json();
-        const user = data.user;
-        setUserId(user._id);
-
-        const isFav = user.favourites?.some((favId: ParamValue) => favId === id || favId?.toString() === id);
-        setIsFavorited(isFav);
-
-      } catch (err) {
-        console.error('Error checking favourites:', err);
-      }
-    }
-
-    checkFavouriteStatus();
-  }, []);
-
 
   if (shelter == null) {
     return (

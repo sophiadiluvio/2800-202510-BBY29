@@ -8,6 +8,8 @@ import { editUser, editShelter } from '../../actions/editProfile';
 import { CgProfile } from "react-icons/cg";
 import Spinner from '../../components/spinner';
 
+const ROLE_OPTIONS = ['food', 'women', 'overnight', 'distribution'];
+
 export default function OrganizationProfilePage() {
   const [userData, setUserData] = useState({ name: '', email: '' });
   const [shelterData, setShelterData] = useState({ name: '', address: '', role: '', website: '' });
@@ -212,14 +214,22 @@ export default function OrganizationProfilePage() {
             </div>
             <div className="flex flex-col">
               <label className="text-sm text-gray-600 mb-1">Role</label>
-              <input
-                name="role"
-                type="text"
-                className="w-full bg-gray-200 py-2 px-4 rounded"
-                value={shelterData.role}
-                disabled={!shelterEditing}
-                onChange={e => setShelterData(s => ({ ...s, role: e.target.value }))}
-              />
+              <div className="flex flex-wrap items-center">
+                {ROLE_OPTIONS.map(option => (
+                  <label key={option} className="inline-flex items-center mr-6 mb-2">
+                    <input
+                      type="radio"
+                      name="role"
+                      value={option}
+                      disabled={!shelterEditing}
+                      checked={shelterData.role === option}
+                      onChange={() => setShelterData(s => ({ ...s, role: option }))}
+                      className="form-radio h-4 w-4"
+                    />
+                    <span className="ml-2">{option}</span>
+                  </label>
+                ))}
+              </div>
             </div>
             <div className="flex justify-center space-x-4 mt-4">
               {!shelterEditing ? (
