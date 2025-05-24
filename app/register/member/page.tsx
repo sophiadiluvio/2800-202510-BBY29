@@ -31,14 +31,13 @@ export default function MemberRegisterPage() {
         body: JSON.stringify({ name: username, email, password, role }),
       });
 
-      const { error } = await res.json();
-
       if (res.redirected) {
           const url = new URL(res.url);
           router.push(url.pathname);
           return;
         }
 
+        const data = await res.json();
         setError(error);
     } catch {
       setError('Network error. Please try again.');
